@@ -12,56 +12,56 @@ Date: March 2026
 
 ---
 
-## 🧠 Key Features
+## 🏗️ Internal Design & algorithms
+<!-- Spec requires: "A brief description of how your allocation system works
+internally and any relevant algorithms not in this spec." -->
+---
 
+## 👥 Team Responsabilities
+<!-- Spec requires: "Who was responsible for which part(s) of the work." -->
 ---
 
 ## 📁 File Structure
 
-//old file structure used lmao
-
 ```text
-MyMDb/
- ├── devcontainer/           
- │   └── devcontainer.json    # Defines environment setup for cloud development
- ├── img/                    
- │   ├── bacon_filmography.png      # Example screenshot: filmography
- │   ├── bacon_load.png             # Example screenshot: initial load
- │   └── bacon_overlap.png          # Example screenshot: overlap search
- ├── node_modules/            # Installed dependencies (npm, do not edit)
- │   └── ...                  
- ├── public/                  # Static assets served by Express
- │   ├── mymdb.css            # Stylesheet
- │   ├── mymdb.html           # HTML
- │   └── mymdb.js             # Client-side JavaScript
- ├── mymdb-service.js         # Node.js + Express backend service
- ├── package-lock.json        # Auto-generated dependency lockfile
- ├── package.json             # Project metadata, dependencies, start/dev scripts
- └── README.md                # Documentation and debugging notes
+cs301project/
+ ├── memalloc.c       # Core allocation functions (malloc301, free301, etc.)
+ ├── memalloc.h
+ ├── memops.c         # Bulk memory operations (memcpy301, memset301, etc.)
+ ├── memops.h
+ ├── memdebug.c       # Debugging utilities (print_block, print_blocks)
+ ├── memdebug.h
+ ├── memimpl.h        # Internal structs/macros
+ ├── test.c           # Testing program
+ ├── Makefile         
+ └── README.md
 ```
 
-### Image credit
-
 ---
 
-## ⚙️ How to run
+## ⚙️ How to Build and Run
 
+```bash
+make          # Build everything
+make test     # Build test program
+make clean    # Remove .o files and executables
+make dist     # Create cs301project.tar.gz for submission
+```
+<!-- could add memory leak tests or others but these are the required for now -->
 ---
 
-## 🌐 Service API (query parameters)
-
+## 🔬 Testing
+<!-- Spec requires: "A brief description of the testing you have performed,
+the behavior of your test program, etc." -->
 ---
 
-## 🧩 UI behavior (client)
-
+## 📦 Resources Used
+<!-- Spec requires: "A brief comment about what resources you used." -->
 ---
 
-## 🛠️ Debugging Notes
-
----
-
-## 🖼️ Screenshots
-
+## 🪞 Reflection
+<!-- Spec requires: "A very brief reflection: What parts were hardest?
+What parts were fun or interesting?" -->
 ---
 
 ## 🧱 Project tasklist (constraints and features)
