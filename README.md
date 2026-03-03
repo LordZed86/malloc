@@ -1,7 +1,7 @@
 # 📚 My MDb
 
-Author: Lore, Joe, Kellen
-Course: CS 301 — Foundations of Computer Science 
+Author: Lore, Joe, Kellen  
+Course: CS 301 — Foundations of Computer Science  
 Instructor: Allison Obourn  
 Malloc Project (C programming language)  
 Date: March 2026  
