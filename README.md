@@ -1,4 +1,4 @@
-# 📚 My MDb
+# 📚 Malloc/Calloc
 
 Author: Lore, Joe, Kellen  
 Course: CS 301 — Foundations of Computer Science  
