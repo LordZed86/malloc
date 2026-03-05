@@ -1,7 +1,7 @@
 # 📚 Malloc/Calloc
 
 Author: Lore, Joe, Kellen  
-Course: CS 301 — Foundations of Computer Science  
+Course: CS 301 - Foundations of Computer Science  
 Instructor: Allison Obourn  
 Malloc Project (C programming language)  
 Date: March 2026  
@@ -25,16 +25,16 @@ internally and any relevant algorithms not in this spec." -->
 
 ```text
 cs301project/
- ├── memalloc.c       # Core allocation functions (malloc301, free301, etc.)
- ├── memalloc.h
- ├── memops.c         # Bulk memory operations (memcpy301, memset301, etc.)
- ├── memops.h
- ├── memdebug.c       # Debugging utilities (print_block, print_blocks)
- ├── memdebug.h
- ├── memimpl.h        # Internal structs/macros
- ├── test.c           # Testing program
- ├── Makefile         
- └── README.md
+ ├-- memalloc.c       # Core allocation functions (malloc301, free301, etc.)
+ ├-- memalloc.h
+ ├-- memops.c         # Bulk memory operations (memcpy301, memset301, etc.)
+ ├-- memops.h
+ ├-- memdebug.c       # Debugging utilities (print_block, print_blocks)
+ ├-- memdebug.h
+ ├-- memimpl.h        # Internal structs/macros
+ ├-- test.c           # Testing program
+ ├-- Makefile         
+ └-- README.md
 ```
 
 ---
@@ -81,17 +81,17 @@ What parts were fun or interesting?" -->
 
 ### Features
 
-- `init301(void* block, int size)` — initialize the memory pool.
-- `malloc301(int size)` — first-fit allocation, rounded to multiples of 4.
-- `calloc301(int num, int size)` — allocate and zero-initialize.
-- `realloc301` — reallocate a block.
-- `free301(void* p)` — free and coalesce neighboring free blocks (up to 3-way merge).
-- `sizeof301(void* p)` — return allocated size of a block.
-- `memcpy301` — copy non-overlapping memory regions.
-- `memset301` — set bytes to a value.
-- `memzero301` — zero out bytes.
-- `print_block(void* block)` — print one block's debug info.
-- `print_blocks(void)` — print all blocks numbered with 2-digit right-aligned fields.
+- `init301(void* block, int size)` - initialize the memory pool.
+- `malloc301(int size)` - first-fit allocation, rounded to multiples of 4.
+- `calloc301(int num, int size)` - allocate and zero-initialize.
+- `realloc301` - reallocate a block.
+- `free301(void* p)` - free and coalesce neighboring free blocks (up to 3-way merge).
+- `sizeof301(void* p)` - return allocated size of a block.
+- `memcpy301` - copy non-overlapping memory regions.
+- `memset301` - set bytes to a value.
+- `memzero301` - zero out bytes.
+- `print_block(void* block)` - print one block's debug info.
+- `print_blocks(void)` - print all blocks numbered with 2-digit right-aligned fields.
 - `Makefile` with targets: `all`, `test`, `dist`, `clean`, plus per-file `.o` targets with proper dependencies.
 - `test.c` testing program exercising all functions non-trivially.
 - `README` covering authorship, design, testing, resources, and reflection.
