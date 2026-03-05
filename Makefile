@@ -2,9 +2,13 @@
 CC = gcc
 CFLAGS = -Wall -g
 
-all:
+#all: test.c memalloc.c memdebug.c
+#	gcc test.c memalloc.c memdebug.c -o all
+#	./all
 
-test:
+test: test.c memalloc.c memdebug.c
+  gcc test.c memalloc.c memdebug.c -o test
+  ./test
 
 dist:
 
