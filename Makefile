@@ -6,8 +6,8 @@ CFLAGS = -Wall -g
 #	gcc test.c memalloc.c memdebug.c -o all
 #	./all
 
-test: test.c memalloc.c memdebug.c
-  gcc test.c memalloc.c memdebug.c -o test
+test: test.c memalloc.c memdebug.c memops.c
+  gcc test.c memalloc.c memdebug.c memops.c -o test
   ./test
 
 dist:
