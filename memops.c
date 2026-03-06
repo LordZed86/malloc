@@ -15,7 +15,9 @@
   * Does nothing if size <= 0 or either pointer is NULL.
   */
   void memcpy301(void* to, void* from, int size){
-
+    if ( to != NULL && from != NULL && size > 0) {
+      //
+    }
   }
 
  /*
@@ -23,7 +25,10 @@
   * Returns p, or NULL if p is NULL or size <= 0.
   */
   void* memset301(void* p, int ch, int size){
-    return NULL;
+    if ( p == NULL || size <= 0) {
+      return NULL;
+    }
+    return p;
   }
 
  /*

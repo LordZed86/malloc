@@ -9,6 +9,11 @@ Date: March 2026
 ---
 
 ## 🎯 Overview
+This project is a custom memory allocator written in C, it implements core  
+functions similar `<stdlib>`'s malloc/calloc and free. this allocator manages  
+a single block of memory using a linked list of 4-byte bit-packed node header  
+blocks. This library supports allocation, deallocation, and coalescing of free  
+adjacent blocks.  
 
 ---
 
@@ -19,6 +24,13 @@ internally and any relevant algorithms not in this spec." -->
 
 ## 👥 Team Responsabilities
 <!-- Spec requires: "Who was responsible for which part(s) of the work." -->
+Lore - 
+
+Joe - 
+
+Kellen - 
+
+
 ---
 
 ## 📁 File Structure
@@ -41,13 +53,33 @@ cs301project/
 
 ## ⚙️ How to Build and Run
 
+### Build
+
 ```bash
 make          # Build everything
-make test     # Build test program
 make clean    # Remove .o files and executables
 make dist     # Create cs301project.tar.gz for submission
 ```
-<!-- could add memory leak tests or others but these are the required for now -->
+
+### Run
+```bash
+./test        # Runs the test program
+```
+
+### Memory Leak Detection
+
+```bash
+make valgrind   # Linux/WSL - runs test with full leak checking
+make mac_leaks  # Mac - runs test with macOS leaks tool
+```
+
+### Requirements
+
+- GCC compiler
+- Mac: macOS leaks tool (built in)
+- Linux/WSL: Valgrind (`sudo apt install valgrind`)
+- Windows: Use WSL or SSH into a Linux server.  
+
 ---
 
 ## 🔬 Testing
@@ -57,6 +89,14 @@ the behavior of your test program, etc." -->
 
 ## 📦 Resources Used
 <!-- Spec requires: "A brief comment about what resources you used." -->
+- Course slides and lecture notes.
+- Assignment specification.
+- [C documentation](https://en.cppreference.com/index.html) - Used to reference C functionality. 
+- Bit manipulation reference:
+  - [cppreference.com](https://en.cppreference.com/w/c/language/bit_field.html) - Bit-fields - used to understand and learn how to declare and use bits in a struct for practical use. 
+  - [Bit Twiddling Hacks](https://graphics.stanford.edu/~seander/bithacks.html#OperationCounting) -  useful code snippets for bit manipulation.
+- [Mac OSX Developer tools Manual](https://leopard-adc.pepas.com/documentation/Darwin/Reference/ManPages/index.html#//apple_ref/doc/framework/manpages) - used for information on mac leak check tool.
+- [Valgrind documentation](https://valgrind.org/docs/manual/manual.html) - Usful memory leak testing tool.
 ---
 
 ## 🪞 Reflection
