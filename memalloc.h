@@ -34,7 +34,7 @@ void* calloc301(int num, int size);
  * Reallocates the block at p to the new size.
  * Copies existing data. Returns NULL if no block available.
  */
-void realloc301(void* p, int size);
+void* realloc301(void* p, int size);
 
 /*
  *Frees the block at p and coalesces neighboring free blocks.

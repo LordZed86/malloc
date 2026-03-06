@@ -9,6 +9,9 @@
 #ifndef MEMIMPL_H
 #define MEMIMPL_H
 
+#include <stdio.h>
+#include <stdbool.h>
+
 /*
  * node
  * Represents a single element in the linked list.
@@ -25,15 +28,15 @@ typedef struct node {
 } node;
 
 /*
- * block
+ * heap
  * global heap state.
  * Fields:
  *   head - points to the start of the memory pool
  *   total_size - the total size of the memory pool
  */
-typedef struct block { // should we call this block or heap?
+typedef struct heap { // 
     node *head;
     int total_size;
-}block;
+}heap;
 
 #endif
