@@ -1,1 +1,35 @@
-// Adding a comment so I can say I contributed lol
+/* 
+ * memops.c
+ * Authors: Lore, Joe, Kellen
+ * CS 301 - Malloc Project
+ * March 2026
+ * Implements bulk memory operations: memcpy301, memset301, memzero301.
+ */
+
+#include "memimpl.h"
+#include "memops.h"
+
+ /*
+  * Copies size bytes from from to to.
+  * Assumes regions do not overlap.
+  * Does nothing if size <= 0 or either pointer is NULL.
+  */
+  void memcpy301(void* to, void* from, int size){
+
+  }
+
+ /*
+  * Sets size bytes starting at p to the value ch.
+  * Returns p, or NULL if p is NULL or size <= 0.
+  */
+  void* memset301(void* p, int ch, int size){
+    return NULL;
+  }
+
+ /*
+  * Sets size bytes starting at p to zero.
+  * Returns p, or NULL if p is NULL or size <= 0.
+  */
+  void* memzero301(void* p, int size){
+    return NULL;
+  }
