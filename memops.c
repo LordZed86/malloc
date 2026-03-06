@@ -23,6 +23,9 @@
   * Returns p, or NULL if p is NULL or size <= 0.
   */
   void* memset301(void* p, int ch, int size){
+    if ( p == NULL || size <= 0) {
+      return NULL;
+    }
     return NULL;
   }
 
