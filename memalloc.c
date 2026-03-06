@@ -7,9 +7,11 @@
 #include "memimpl.h"
 #include "memalloc.h"
 
+static heap* GLOBAL_HEAP;
 
 void init301(void* block, int size){
-
+GLOBAL_HEAP->head = block;
+GLOBAL_HEAP->total_size = size;
 }
 
 void* malloc301(int size){
@@ -32,4 +34,3 @@ void free301(void* p){
 int sizeof301(void* p){
     return 0;
 }
-//kellen likes kissing girls

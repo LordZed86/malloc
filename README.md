@@ -24,6 +24,13 @@ internally and any relevant algorithms not in this spec." -->
 
 ## 👥 Team Responsabilities
 <!-- Spec requires: "Who was responsible for which part(s) of the work." -->
+Lore - 
+
+Joe - 
+
+Kellen - 
+
+
 ---
 
 ## 📁 File Structure
