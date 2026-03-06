@@ -15,7 +15,9 @@
   * Does nothing if size <= 0 or either pointer is NULL.
   */
   void memcpy301(void* to, void* from, int size){
-
+    if ( to != NULL && from != NULL && size > 0) {
+      //
+    }
   }
 
  /*
