@@ -28,7 +28,7 @@
     if ( p == NULL || size <= 0) {
       return NULL;
     }
-    return NULL;
+    return p;
   }
 
  /*
