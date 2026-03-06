@@ -8,10 +8,18 @@
 #include "memalloc.h"
 
 static heap* GLOBAL_HEAP;
+static int NODE_SIZE = 4;
 
 void init301(void* block, int size){
-GLOBAL_HEAP->head = block;
-GLOBAL_HEAP->total_size = size;
+    
+    GLOBAL_HEAP->head = block;
+    GLOBAL_HEAP->total_size = size;
+
+    node* start = block;
+
+    start->size = size - NODE_SIZE;
+    start->free = 1;
+    start->last = 1;
 }
 
 void* malloc301(int size){
