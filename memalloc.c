@@ -84,14 +84,24 @@ void* malloc301(int size) {
 
 void* calloc301(int num, int size){
     if (size <= 0) return NULL;
+
     // call malloc
     //allocate : num * size bytes
-    // then call memzero //initialize all values to zero
+    // then call memzero 
+    void* finger = malloc301(num * size);
+
+    // then call memzero?
+    //initialize all values to zero
+    if (finger != NULL) {
+        memzero301(finger, num * size);
+    }
+
+    return finger;
+}
+    // call malloc
+    
 
     // no suitable block found
-    return NULL;
-
-}
 
 // No actual idea why this is here but it's referenced so we ball I guess
 void* realloc301(void* p, int size){
