@@ -33,7 +33,8 @@ and offset bit shift arithmetic
 **Joe** - `calloc301`, `free301` including block coalescing
 
 **Kellen** - `memimpl.h` struct design, bit-packing and offset storage system,
-init301
+init301, Provided an artistic understanding of how malloc is actually 
+supposed to work to get the team up to speed, and bully Joe
 
 ### Milestone 2
 
@@ -41,8 +42,7 @@ init301
 
 **Joe** - 
 
-**Kellen** - Provided an artistic understanding of how malloc is actually 
-supposed to work to get the team up to speed, as well as...
+**Kellen** - 
 
 ---
 
