@@ -15,6 +15,8 @@
  * including address, status, and size.
  * Example output: [0x22c8d0, used, 512B]
  */
+
+ 
 void print_block(void* block) {
     node* temp = block;
     bool used = temp->free; 
