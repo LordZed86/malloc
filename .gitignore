@@ -6,3 +6,4 @@ memdebug.o
 memops.o
 test.exe
 test.o
+test
