@@ -44,7 +44,8 @@ void* malloc301(int size) {
             
             if (leftover > NODE_SIZE) {
                 // leftover is large enough to be worth splitting into a 
-                // new block, place new node header directly after the allocated block
+                // new block, place new node header directly after the 
+                // allocated block
                 node *next = (node*)((char*)current + NODE_SIZE + size);
                 // store leftover size as offset (shift right 2 to divide by 4)
                 next->size = leftover >> 2;
