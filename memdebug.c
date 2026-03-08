@@ -32,8 +32,7 @@ void print_block(void* block){
 void print_blocks(void){
     //for loop to go through entire heap
     for (int i = 0; i < 10; i++) { //change to size of heap contents
-        bool used = 0; //check used
-        printf("%d [%p, %s, %d]", i, block, used ? "used" : "free", block->size);
+        print_block(void);
     }
     
 }
