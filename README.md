@@ -88,15 +88,16 @@ the behavior of your test program, etc." -->
 ---
 
 ## 📦 Resources Used
-<!-- Spec requires: "A brief comment about what resources you used." -->
-- Course slides and lecture notes.
-- Assignment specification.
-- [C documentation](https://en.cppreference.com/index.html) - Used to reference C functionality. 
-- Bit manipulation reference:
-  - [cppreference.com](https://en.cppreference.com/w/c/language/bit_field.html) - Bit-fields - used to understand and learn how to declare and use bits in a struct for practical use. 
-  - [Bit Twiddling Hacks](https://graphics.stanford.edu/~seander/bithacks.html#OperationCounting) -  useful code snippets for bit manipulation.
-- [Mac OSX Developer tools Manual](https://leopard-adc.pepas.com/documentation/Darwin/Reference/ManPages/index.html#//apple_ref/doc/framework/manpages) - used for information on mac leak check tool.
-- [Valgrind documentation](https://valgrind.org/docs/manual/manual.html) - Usful memory leak testing tool.
+- Course slides and lecture notes
+- Assignment specification
+- [C Documentation - cppreference](https://en.cppreference.com/index.html) - general C language reference
+- [Bit Fields in C - cppreference](https://en.cppreference.com/w/c/language/bit_field) - declaring and using bit fields in structs
+- [Bit Shifting in C - cppreference](https://en.cppreference.com/w/c/language/operator_arithmetic) - bit shift operators
+- [Bit Twiddling Hacks - Stanford](https://graphics.stanford.edu/~seander/bithacks.html) - bit manipulation reference and code snippets
+- [First-Fit Memory Allocation - Wikipedia](https://en.wikipedia.org/wiki/First-fit_bin_packing) - first-fit allocation algorithm
+- [Memory Alignment and Padding - Wikipedia](https://en.wikipedia.org/wiki/Data_structure_alignment) - data alignment and padding reference
+- [Valgrind Documentation](https://valgrind.org/docs/manual/manual.html) - memory leak testing on Linux/WSL
+- [Mac OSX Leaks Tool](https://leopard-adc.pepas.com/documentation/Darwin/Reference/ManPages/index.html) - memory leak testing on Mac
 ---
 
 ## 🪞 Reflection
