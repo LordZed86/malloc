@@ -32,11 +32,13 @@ void print_blocks(void) {
     //for loop to go through entire heap
     node* temp = heap->head;
     int count = 1;
-    int j = temp->size;
-    for (int i = 0; i < heap->total_size; i += j) { //change to size of heap contents // chang i by size of nodes instead
+    bool last = temp->last;
+    while (!last) {
         printf("%d: ", count);
         print_block(temp);
-        temp = temp->next; //move with >> bit operator not next
+        temp = temp >> temp->size; //move with >> bit operator not next
         count++;
     }
+    printf("%d: ", count);
+    print_block(temp);
 }
