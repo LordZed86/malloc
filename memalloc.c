@@ -14,10 +14,12 @@
 #include "memimpl.h"
 #include "memalloc.h"
 
-#define NODE_SIZE 4
-
 static heap GLOBAL_HEAP;
 
+//get the heap head node to pass to debug
+node* get_heap_head(void) {
+    return GLOBAL_HEAP.head;
+}
 
 void init301(void* block, int size){
 
@@ -79,23 +81,42 @@ void* malloc301(int size) {
 }
 
 void* calloc301(int num, int size){
+    if (size <= 0) return NULL;
+
     // call malloc
+    //allocate : num * size bytes
+    // then call memzero 
+    void* finger = malloc301(num * size);
+
     // then call memzero?
-    return NULL;
+    //initialize all values to zero
+    if (finger != NULL) {
+        memzero301(finger, num * size);
+    }
 
+    return finger;
 }
+    // call malloc
+    
 
+    // no suitable block found
+
+// No actual idea why this is here but it's referenced so we ball I guess
 void* realloc301(void* p, int size){
     return NULL;
 }
 
 void free301(void* p){
     // if null do nothing
+    if (p != NULL) {
     // step back NODE_SIZE to point to the node
+    node* current = (node*)((char*)p - 4);
     // set node to free
+    current->free = 1;
     // check if next block is free and merge appropriatly
     // check if previous node is free and merge if needed - finding the previous
     // node is hard to do lol.
+    }
 
 }
 

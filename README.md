@@ -23,13 +23,26 @@ internally and any relevant algorithms not in this spec." -->
 ---
 
 ## 👥 Team Responsabilities
-<!-- Spec requires: "Who was responsible for which part(s) of the work." -->
-Lore - 
+<!-- Spec requires: "Who was responsible for which part(s) of the work." 
+ running list based on who contributed the most to each section not necessarily by physically tuyping and committing but by overall contribution intelectually or conceptually -->
+ ### Milestone 1
 
-Joe - 
+**Lore** - `malloc301`, `memdebug` including first-fit strategy, block splitting, 
+and offset bit shift arithmetic
 
-Kellen - 
+**Joe** - `calloc301`, `free301` including block coalescing
 
+**Kellen** - `memimpl.h` struct design, bit-packing and offset storage system,
+init301, Provided an artistic understanding of how malloc is actually 
+supposed to work to get the team up to speed, and bully Joe
+
+### Milestone 2
+
+**Lore** -
+
+**Joe** - 
+
+**Kellen** - 
 
 ---
 

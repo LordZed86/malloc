@@ -9,14 +9,19 @@
 
 #include "memimpl.h"
 #include "memdebug.h"
+#include "memalloc.h"
 
  /*
  * Prints debugging information about a single block,
  * including address, status, and size.
  * Example output: [0x22c8d0, used, 512B]
  */
-void print_block(void* block){
 
+ 
+void print_block(void* block) {
+    node* temp = block;
+    bool used = temp->free; 
+    printf("[%p, %s, %dB]\n", block, used ? "used" : "free", temp->size);
 }
 
 /*
@@ -26,6 +31,16 @@ void print_block(void* block){
  *  01 [0x22c8c4, used, 8B]
  *  02 [0x22c8d0, free, 512B]
  */
-void print_blocks(void){
-
+void print_blocks(void) {
+    node* current = get_heap_head();
+    int count = 1;
+    bool last = current->last;
+    while (!last) {
+        printf("%d: ", count);
+        print_block((char*)current + NODE_SIZE);
+        current = (node*)((char*)current + NODE_SIZE + (current->size << 2)); //move with >> bit operator not next //last thing to fix
+        count++;
+    }
+    printf("%d: ", count);
+    print_block(current);
 }
