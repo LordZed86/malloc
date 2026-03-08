@@ -14,8 +14,6 @@
 #include "memimpl.h"
 #include "memalloc.h"
 
-#define NODE_SIZE 4
-
 static heap GLOBAL_HEAP;
 
 //get the heap head node to pass to debug

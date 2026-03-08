@@ -9,6 +9,7 @@
  #ifndef MEMALLOC_H
  #define MEMALLOC_H
 
+#define NODE_SIZE 4
 
 /*
  * Initializes the memory pool with the given block and size.

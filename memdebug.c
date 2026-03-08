@@ -9,6 +9,7 @@
 
 #include "memimpl.h"
 #include "memdebug.h"
+#include "memalloc.h"
 
  /*
  * Prints debugging information about a single block,
@@ -31,15 +32,15 @@ void print_block(void* block) {
  *  02 [0x22c8d0, free, 512B]
  */
 void print_blocks(void) {
-    node* temp = get_heap_head();
+    node* current = get_heap_head();
     int count = 1;
-    bool last = temp->last;
+    bool last = current->last;
     while (!last) {
         printf("%d: ", count);
-        print_block(temp);
-        temp = temp >> temp->size; //move with >> bit operator not next //last thing to fix
+        print_block((char*)current + NODE_SIZE);
+        current = (node*)((char*)current + NODE_SIZE + (current->size << 2)); //move with >> bit operator not next //last thing to fix
         count++;
     }
     printf("%d: ", count);
-    print_block(temp);
+    print_block(current);
 }
