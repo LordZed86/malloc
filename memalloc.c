@@ -86,8 +86,10 @@ void free301(void* p){
 
 }
 
-int sizeof301(void* p){
-    if(p == NULL) return 0;
+int sizeof301(void* p) {
+    if (p == NULL) return 0;
+    // step back NODE_SIZE bytes to get to the node header
     node *n = (node*)((char*)p - NODE_SIZE);
-    return n->size << 2;  // shift left 2 to multiply by 4
+    // shift left 2 to convert stored offset back to bytes
+    return n->size << 2;
 }
