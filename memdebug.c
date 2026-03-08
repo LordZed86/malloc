@@ -16,7 +16,7 @@
  * Example output: [0x22c8d0, used, 512B]
  */
 void print_block(void* block) {
-    bool used = 0; //check used somehow
+    bool used = block->free; //check used somehow
     //some loop to get used
     printf("[%p, %s, %dB]\n", block, used ? "used" : "free", block->size);
 
@@ -31,9 +31,11 @@ void print_block(void* block) {
  */
 void print_blocks(void) {
     //for loop to go through entire heap
-    for (int i = 0; i < 10; i++) { //change to size of heap contents
+    node* temp = heap->head;
+    for (int i = 0; i < heap->total_size; i++) { //change to size of heap contents
         printf("%d: ", i);
-        print_block(&void);
+        print_block(temp);
+        temp = temp->next;
     }
     
 }
