@@ -18,6 +18,10 @@
 
 static heap GLOBAL_HEAP;
 
+//get the heap head node to pass to debug
+node* get_heap_head(void) {
+    return GLOBAL_HEAP.head;
+}
 
 void init301(void* block, int size){
 
