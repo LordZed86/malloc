@@ -83,8 +83,12 @@ void* malloc301(int size) {
 }
 
 void* calloc301(int num, int size){
+    if (size <= 0) return NULL;
     // call malloc
-    // then call memzero?
+    //allocate : num * size bytes
+    // then call memzero //initialize all values to zero
+
+    // no suitable block found
     return NULL;
 
 }
