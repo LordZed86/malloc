@@ -21,7 +21,7 @@
  *   last - stores if the node is the last memory block or not.
  */
 typedef struct node {
-    unsigned int size : 28; // 'size' occupies 28 bits
+    unsigned int size : 28; // 'size' 4 byte units (offset), not bytes
     unsigned int free : 1; // 'free' occupies 1 bit for free or not
     unsigned int last : 1; // 'last' occupies 1 bit for last block or not
     unsigned int padding : 2;// 2 more bits available to make 4 bytes alter or delete if we need to pack another field in there
