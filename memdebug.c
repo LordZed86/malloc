@@ -29,14 +29,13 @@ void print_block(void* block) {
  *  02 [0x22c8d0, free, 512B]
  */
 void print_blocks(void) {
-    //for loop to go through entire heap
-    node* temp = heap->head;
+    node* temp = get_heap_head();
     int count = 1;
     bool last = temp->last;
     while (!last) {
         printf("%d: ", count);
         print_block(temp);
-        temp = temp >> temp->size; //move with >> bit operator not next
+        temp = temp >> temp->size; //move with >> bit operator not next //last thing to fix
         count++;
     }
     printf("%d: ", count);

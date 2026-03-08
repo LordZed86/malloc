@@ -95,6 +95,9 @@ void* realloc301(void* p, int size){
 }
 
 void free301(void* p){
+    if (p != NULL) {
+        //
+    }
     // if null do nothing
     // step back NODE_SIZE to point to the node
     // set node to free
