@@ -16,10 +16,9 @@
  * Example output: [0x22c8d0, used, 512B]
  */
 void print_block(void* block) {
-    bool used = block->free; //check used somehow
-    //some loop to get used
-    printf("[%p, %s, %dB]\n", block, used ? "used" : "free", block->size);
-
+    node* temp = block;
+    bool used = temp->free; 
+    printf("[%p, %s, %dB]\n", block, used ? "used" : "free", temp->size);
 }
 
 /*
@@ -32,10 +31,12 @@ void print_block(void* block) {
 void print_blocks(void) {
     //for loop to go through entire heap
     node* temp = heap->head;
-    for (int i = 0; i < heap->total_size; i++) { //change to size of heap contents
-        printf("%d: ", i);
+    int count = 1;
+    int j = temp->size;
+    for (int i = 0; i < heap->total_size; i += j) { //change to size of heap contents // chang i by size of nodes instead
+        printf("%d: ", count);
         print_block(temp);
-        temp = temp->next;
+        temp = temp->next; //move with >> bit operator not next
+        count++;
     }
-    
 }
