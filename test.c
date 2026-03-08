@@ -10,15 +10,29 @@
 #include "memalloc.h"
 #include "memdebug.h"
 #include <stdio.h>
+#include <stdbool.h>
+
+// functions to test each of the functions in memalloc.c
+bool init_test() {
+    
+}
+
+bool malloc_test() {
+    return true;
+}
+
+bool calloc_test() {
+    return true;
+}  
 
 //lelee
 int main (void){
     // TODO: add tests tor init301
-
+    init_test();
     // TODO: add tests for Malloc301
-
+    malloc_test();
     // TODO: add tests for calloc301
-
+    calloc_test();
 
     printf("%s", "Hello World");
 }

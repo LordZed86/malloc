@@ -108,7 +108,7 @@ void* realloc301(void* p, int size){
 
 void free301(void* p){
     // if null do nothing
-    if (p == NULL) return;
+    if (p != NULL) {
     // step back NODE_SIZE to point to the node
     node* current = (node*)((char*)p - 4);
     // set node to free
@@ -116,6 +116,8 @@ void free301(void* p){
     // check if next block is free and merge appropriatly
     // check if previous node is free and merge if needed - finding the previous
     // node is hard to do lol.
+    }
+    return NULL;
 
 }
 
