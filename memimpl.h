@@ -19,6 +19,11 @@
  *   size - stores size of memory block.
  *   free - stores if the memory block is in use or "free" (usable).
  *   last - stores if the node is the last memory block or not.
+ * 
+ *  ******************* IMPORTANT *****************************
+ * Storing into node->size -> (divide by 4) shift >> right by 2
+ * Reading from node->size -> (multiply by 4) shift << left by 2
+ * Jumping to next node -> (multiply by 4) shift << left by 2
  */
 typedef struct node {
     unsigned int size : 28; // 'size' 4 byte units (offset), not bytes

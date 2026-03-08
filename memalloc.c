@@ -1,4 +1,9 @@
 /*
+ * memalloc.c
+ * Authors: Lore, Joe, Kellen
+ * CS 301 - Malloc Project
+ * March 2026
+// for reference while we build this stuff, I think this fits better in the memimple notes with the strucst
  * **IMPORTANT**
  * Storing into node->size -> (divide by 4) shift >> right by 2
  * Reading from node->size -> (multiply by 4) shift << left by 2
@@ -74,6 +79,8 @@ void* malloc301(int size) {
 }
 
 void* calloc301(int num, int size){
+    // call malloc
+    // then call memzero?
     return NULL;
 
 }
@@ -83,6 +90,12 @@ void* realloc301(void* p, int size){
 }
 
 void free301(void* p){
+    // if null do nothing
+    // step back NODE_SIZE to point to the node
+    // set node to free
+    // check if next block is free and merge appropriatly
+    // check if previous node is free and merge if needed - finding the previous
+    // node is hard to do lol.
 
 }
 
