@@ -41,7 +41,8 @@ init301
 
 **Joe** - 
 
-**Kellen** -
+**Kellen** - Provided an artistic understanding of how malloc is actually 
+supposed to work to get the team up to speed, as well as...
 
 ---
 
