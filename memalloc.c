@@ -110,7 +110,7 @@ void free301(void* p){
     // if null do nothing
     if (p != NULL) {
     // step back NODE_SIZE to point to the node
-    node* current = (node*)((char*)p - 4);
+    node* current = (node*)((char*)p - NODE_SIZE);
     // set node to free
     current->free = 1;
     // check if next block is free and merge appropriatly
