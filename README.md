@@ -27,7 +27,7 @@ internally and any relevant algorithms not in this spec." -->
  running list based on who contributed the most to each section not necessarily by physically tuyping and committing but by overall contribution intelectually or conceptually -->
  ### Milestone 1
 
-**Lore** - `malloc301` including first-fit strategy, block splitting, 
+**Lore** - `malloc301`, `memdebug` including first-fit strategy, block splitting, 
 and offset bit shift arithmetic
 
 **Joe** - `calloc301`, `free301` including block coalescing
@@ -36,14 +36,6 @@ and offset bit shift arithmetic
 init301
 
 ### Milestone 2
-
-**Lore** -
-
-**Joe** - 
-
-**Kellen** -
-
-### Milestone 3
 
 **Lore** -
 
