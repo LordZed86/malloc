@@ -18,7 +18,7 @@
 void print_block(void* block) {
     bool used = 0; //check used somehow
     //some loop to get used
-    printf("[%p, %s, %d]\n", block, used ? "used" : "free", block->size);
+    printf("[%p, %s, %dB]\n", block, used ? "used" : "free", block->size);
 
 }
 
