@@ -117,7 +117,6 @@ void free301(void* p){
     // check if previous node is free and merge if needed - finding the previous
     // node is hard to do lol.
     }
-    return NULL;
 
 }
 
