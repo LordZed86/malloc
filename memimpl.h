@@ -44,6 +44,5 @@ typedef struct heap { //
     int total_size;
 }heap;
 
-node* get_heap_head(void);
 
 #endif
