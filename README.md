@@ -27,22 +27,30 @@ internally and any relevant algorithms not in this spec." -->
  running list based on who contributed the most to each section not necessarily by physically tuyping and committing but by overall contribution intelectually or conceptually -->
  ### Milestone 1
 
-**Lore** - `malloc301`, `memdebug` including first-fit strategy, block splitting, 
-and offset bit shift arithmetic
+**Lore** - Led implementation of `malloc301` and `memdebug`, including 
+first-fit allocation strategy, block splitting logic, and offset bit shift 
+arithmetic. Contributed to overall system design and debugging.
 
-**Joe** - `calloc301`, `free301` including block coalescing
+**Joe** — Implemented `calloc301`, `memzero301`, and `get_heap_head`. 
+Contributed to initial stub of `free301`. Also served as emotional support 
+for the team and was "bullied" by Kellen.
 
-**Kellen** - `memimpl.h` struct design, bit-packing and offset storage system,
-init301, Provided an artistic understanding of how malloc is actually 
-supposed to work to get the team up to speed, and bully Joe
+**Kellen** - Designed and implemented `memimpl.h` struct layout, bit-packing 
+system, and offset storage strategy. Implemented `init301` and contributed 
+to `malloc301`. Provided architectural guidance on how malloc works 
+internally to get the team up to speed. Chief bully.
 
 ### Milestone 2
+<!-- initial roles randomly assigned but this will probably change as we code the rest of this project -->
+**Lore** - Implemented `memcpy301` and `sizeof301`. Contributed to 
+`test.c` including test cases and CHECK macro for pass/fail validation.
 
-**Lore** -
+**Joe** - Implemented `memzero301` and contributed to `test.c` 
+including calloc and memzero test cases.
 
-**Joe** - 
-
-**Kellen** - 
+**Kellen** - Implemented `memset301` and `free301` including block 
+coalescing logic. Contributed to `test.c` including free and memset 
+test cases.
 
 ---
 
