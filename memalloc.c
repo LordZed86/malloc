@@ -13,6 +13,7 @@
 #include <stdbool.h>
 #include "memimpl.h"
 #include "memalloc.h"
+#include "memops.h"
 
 static heap GLOBAL_HEAP;
 
@@ -81,25 +82,18 @@ void* malloc301(int size) {
 }
 
 void* calloc301(int num, int size){
-    if (size <= 0) return NULL;
 
-    // call malloc
-    //allocate : num * size bytes
-    // then call memzero 
+    if (num <= 0 || size <= 0) return NULL;
+
     void* finger = malloc301(num * size);
 
-    // then call memzero?
     //initialize all values to zero
     if (finger != NULL) {
         memzero301(finger, num * size);
-    }
-
-    return finger;
+        return finger;
+    } else return NULL;
 }
-    // call malloc
-    
 
-    // no suitable block found
 
 // No actual idea why this is here but it's referenced so we ball I guess
 void* realloc301(void* p, int size){
