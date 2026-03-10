@@ -36,7 +36,6 @@
   * Returns p, or NULL if p is NULL or size <= 0.
   */
   void* memzero301(void* p, int size){
-    //
     if ( p == NULL || size <= 0) {
       return NULL;
     }
