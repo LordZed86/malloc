@@ -38,7 +38,8 @@ bool init_test()
     
     // after init there should be one free block of 2044 bytes
     // (2048 - 4 byte node header)
-    CHECK(2044, sizeof301(malloc301(4)), "initial heap size");
+    node *head = get_heap_head();
+    CHECK(2044, head->size << 2 , "initial heap size");
     
     printf("\n");
     return true;
