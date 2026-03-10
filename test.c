@@ -12,14 +12,17 @@
 #include "memalloc.h"
 #include "memdebug.h"
 
+// add these defines at the top of test.c
+#define RED     "\033[0;31m"
+#define GREEN   "\033[0;32m"
+#define RESET   "\033[0m"
 
 // prints expected vs actual and returns false if they dont match
-#define CHECK(expected, actual, msg)                    \
-    printf("  %s: expected %d got %d -> %s\n",          \
-           msg, expected, actual,                       \
-           (expected == actual) ? "PASSED" : "FAILED"); \
-    if (expected != actual)                             \
-        return false;
+#define CHECK(expected, actual, msg) \
+    printf("  %s: expected %d got %d -> %s\n", \
+    msg, expected, actual, \
+    (expected == actual) ? GREEN "PASSED" RESET : RED "FAILED" RESET); \
+    if (expected != actual) return false;
 
 #define HEAP_SIZE 2048
 
@@ -28,7 +31,7 @@ static void *heap_test;
 // functions to test each of the functions in memalloc.c
 bool init_test()
 {
-    printf("********** init_test **********\n");
+    printf("********** init_test **********\n\n");
 
 // reset heap for fresh start
     init301(heap_test, HEAP_SIZE);
@@ -46,7 +49,7 @@ bool init_test()
 }
 
 bool malloc_test() {
-    printf("=== malloc_test ===\n");
+    printf("********** malloc_test **********\n\n");
     
     // reset heap to clean state
     init301(heap_test, HEAP_SIZE);
@@ -85,7 +88,7 @@ bool malloc_test() {
 }
 
 bool calloc_test() {
-    printf("=== calloc_test ===\n");
+    printf("********** calloc_test **********\n\n");
     
     // reset heap to clean state
     init301(heap_test, HEAP_SIZE);
@@ -106,7 +109,7 @@ bool calloc_test() {
         }
     }
     printf("  memory zeroed: expected 1 got %d -> %s\n",
-        zeroed, zeroed ? "PASSED" : "FAILED");
+        zeroed, zeroed ? GREEN "PASSED" RESET : RED "FAILED" RESET);
     if (!zeroed) return false;
     
     // test invalid inputs
@@ -130,13 +133,13 @@ int main (void){
     init301(heap_test, HEAP_SIZE);
 
     // Tests tor init301
-    printf("init_test:   %s\n", init_test()   ? "PASSED" : "FAILED");
+    printf("init_test:   %s\n\n", init_test()   ? GREEN "PASSED" RESET : RED "FAILED" RESET);
 
     // TODO: add tests for Malloc301
-    printf("malloc_test: %s\n", malloc_test() ? "PASSED" : "FAILED");
+    printf("malloc_test: %s\n\n", malloc_test() ? GREEN "PASSED" RESET : "FAILED" RESET);
     
     // TODO: add tests for calloc301
-    printf("calloc_test: %s\n", calloc_test() ? "PASSED" : "FAILED");
+    printf("calloc_test: %s\n\n", calloc_test() ? GREEN "PASSED" RESET : "FAILED" RESET);
 
     // free the heap block when done
     free(heap_test);
