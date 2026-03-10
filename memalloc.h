@@ -6,11 +6,10 @@
  * Public inteface for the memory allocation library
  */
 
-
  #ifndef MEMALLOC_H
  #define MEMALLOC_H
 
-#include "memimpl.h"
+#define NODE_SIZE 4
 
 /*
  * Initializes the memory pool with the given block and size.
@@ -49,7 +48,5 @@ void free301(void* p);
  * Returns 0 if p is NULL.
  */
 int sizeof301(void* p);
-
-node* get_heap_head(void);
 
 #endif

@@ -12,9 +12,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-
-#define NODE_SIZE 4
-
 /*
  * node
  * Represents a single element in the linked list.
@@ -46,5 +43,6 @@ typedef struct heap { //
     node *head;
     int total_size;
 }heap;
+
 
 #endif

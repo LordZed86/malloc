@@ -19,9 +19,9 @@
 
  
 void print_block(void* block) {
-    node* temp = (node*)((char*)block - NODE_SIZE);
-    bool used = temp->free;
-    printf("[%p, %s, %dB]\n", block, used ? "free" : "used", temp->size << 2);
+    node* temp = block;
+    bool used = temp->free; 
+    printf("[%p, %s, %dB]\n", block, used ? "used" : "free", temp->size);
 }
 
 /*
@@ -34,15 +34,13 @@ void print_block(void* block) {
 void print_blocks(void) {
     node* current = get_heap_head();
     int count = 1;
-    while (current != NULL) {
-        printf("%2d: ", count);
+    bool last = current->last;
+    while (!last) {
+        printf("%d: ", count);
         print_block((char*)current + NODE_SIZE);
+        current = (node*)((char*)current + NODE_SIZE + (current->size << 2)); //move with >> bit operator not next //last thing to fix
         count++;
-        if(current->last){
-            current = NULL;
-        }else{
-           current = (node*)((char*)current + NODE_SIZE + (current->size << 2)); 
-        }
     }
+    printf("%d: ", count);
+    print_block(current);
 }
-

@@ -9,8 +9,6 @@
 #ifndef MEMDEBUG_H
 #define MEMDEBUG_H
 
-#include "memimpl.h"
-
 // Prints debugging info about a single block (address, status, size).
 void print_block(void* block);
 
