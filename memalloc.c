@@ -109,6 +109,7 @@ void free301(void* p){
     // set node to free
     current->free = 1;
     // check if next block is free and merge appropriatly
+    //TODO: FINISH
     // check if previous node is free and merge if needed - finding the previous
     // node is hard to do lol.
     }
