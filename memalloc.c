@@ -111,11 +111,11 @@ void free301(void* p){
     // check if next block is free and merge appropriatly
     // check for current block
     if (current->last ==0) {
-        node* next = (node*)((char*)current + 4 + (current->size << 2));
+        node* next = (node*)((char*)current + 4 + (current->size << 2)); // Magic Number 4 -> should be NODE_SIZE
         // Check for next block
         if (next->free == 1) {
             // merge current and next by adding their sizes together
-            current->size = current->size + 1 + next->size;
+            current->size = current->size + 1 + next->size; // whats this 1 for? i think this will also need converted back and forth to account for the rounding logic and keep everything in blocks of 4.
             //push forward
             current->last = next->last;
         }
