@@ -3,7 +3,8 @@
  * Authors: Lore, Joe, Kellen
  * CS 301 - Malloc Project
  * March 2026
-// for reference while we build this stuff, I think this fits better in the memimple notes with the strucst
+// for reference while we build this stuff, I think this fits better in the 
+    memimple notes with the strucst
  * **IMPORTANT**
  * Storing into node->size -> (divide by 4) shift >> right by 2
  * Reading from node->size -> (multiply by 4) shift << left by 2
@@ -96,7 +97,8 @@ void* calloc301(int num, int size){
 
 
 // No actual idea why this is here but it's referenced so we ball I guess
-// you should look the regular function up Joe, then you would know this is to resize a memory block.
+// you should look the regular function up Joe, then you would know this is to 
+// resize a memory block.
 void* realloc301(void* p, int size){
     return NULL;
 }
@@ -120,10 +122,29 @@ void free301(void* p){
             current->last = next->last;
         }
 
-    }
-    // check if previous node is free and merge if needed - finding the previous
-    //TODO
-    // node is hard to do lol.
+        }
+        // check if previous node is free and merge if needed
+        //traverse from head to find previous node (only if not the first block)
+        if (current != GLOBAL_HEAP.head) {
+            node* prev = GLOBAL_HEAP.head;
+            // traverse until we find the node right before current
+            while (prev != NULL && prev->last == 0 ) {
+                // jump forward through the list until we find the block right 
+                //before current
+                node* next_block = NULL;
+                while (next_block != current) {
+                    prev = next_block;
+                    next_block = (node*)((char*)prev + NODE_SIZE + 
+                    (prev->size << 2));
+                }
+            }
+            // if previous block is free, merge it with current
+            if (prev != NULL && prev->free == 1) {
+                prev->size = prev->size + current->size + (NODE_SIZE >> 2);
+                // push forward
+                prev->last = current->last;
+            }
+        }
     }
 
 }
