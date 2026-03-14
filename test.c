@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include "memalloc.h"
 #include "memdebug.h"
+#include "memops.h"
 
 // add these defines at the top of test.c
 #define RED     "\033[0;31m"
@@ -126,20 +127,77 @@ bool calloc_test() {
     return true;
 }  
 
+bool memset_test() {
+    printf("********** memset_test **********\n\n");
+    init301(heap_test, HEAP_SIZE);
+    
+    // test basic memset
+    void *a = malloc301(20);
+    memset301(a, 5, 20);
+    
+    // verify every byte is set to 5
+    char *bytes = (char*)a;
+    bool correct = true;
+    for (int i = 0; i < 20; i++) {
+        if (bytes[i] != 5) {
+            correct = false;
+            break;
+        }
+    }
+    printf("  memset to 5: expected 1 got %d -> %s\n",
+        correct, correct ? GREEN "PASSED" RESET : RED "FAILED" RESET);
+    if (!correct) return false;
+
+    // test memset to 0
+    memset301(a, 0, 20);
+    bool zeroed = true;
+    for (int i = 0; i < 20; i++) {
+        if (bytes[i] != 0) {
+            zeroed = false;
+            break;
+        }
+    }
+    printf("  memset to 0: expected 1 got %d -> %s\n",
+        zeroed, zeroed ? GREEN "PASSED" RESET : RED "FAILED" RESET);
+    if (!zeroed) return false;
+
+    // test NULL pointer returns NULL
+    void *b = memset301(NULL, 5, 20);
+    CHECK(0, (b == NULL ? 0 : 1), "memset NULL returns NULL");
+
+    // test size <= 0 returns NULL
+    void *c = memset301(a, 5, 0);
+    CHECK(0, (c == NULL ? 0 : 1), "memset size 0 returns NULL");
+
+    // test memset with max byte value 255
+    memset301(a, 255, 20);
+    bool maxed = true;
+    for (int i = 0; i < 20; i++) {
+        if ((unsigned char)bytes[i] != 255) {
+            maxed = false;
+            break;
+        }
+    }
+    printf("  memset to 255: expected 1 got %d -> %s\n",
+        maxed, maxed ? GREEN "PASSED" RESET : RED "FAILED" RESET);
+    if (!maxed) return false;
+
+    printf("\n");
+    return true;
+}
 
 int main (void){
     // create heap for testing
     heap_test = malloc(HEAP_SIZE);
     init301(heap_test, HEAP_SIZE);
 
-    // Tests tor init301
     printf("init_test:   %s\n\n", init_test()   ? GREEN "PASSED" RESET : RED "FAILED" RESET);
 
-    // TODO: add tests for Malloc301
     printf("malloc_test: %s\n\n", malloc_test() ? GREEN "PASSED" RESET : "FAILED" RESET);
     
-    // TODO: add tests for calloc301
     printf("calloc_test: %s\n\n", calloc_test() ? GREEN "PASSED" RESET : "FAILED" RESET);
+
+    printf("memset_test: %s\n\n", memset_test() ? GREEN "PASSED" RESET : RED "FAILED" RESET);
 
     // free the heap block when done
     free(heap_test);
