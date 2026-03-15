@@ -51,11 +51,6 @@
     if ( p == NULL || size <= 0) {
       return NULL;
     }
-    // cast p to char* to manipulate individual bytes
-    char* bytep = (char*)p;
-    // now loop through each byte and set to zero each time
-    for (int i = 0; i < size; i++) {
-      bytep[i] = 0;
-    }
+    memeset(p, 0, size);
     return p;
   }
