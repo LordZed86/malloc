@@ -15,8 +15,12 @@
   * Does nothing if size <= 0 or either pointer is NULL.
   */
   void memcpy301(void* to, void* from, int size){
-    if ( to != NULL && from != NULL && size > 0) {
-      //
+    if ( to != NULL && from != NULL && size >= 0) {
+      char* first = (char*)to;
+      const char* second = (const char*)from;
+      for (int i = 0; i < size; i++) {
+        first[i] = second[i];
+      }
     }
   }
 
