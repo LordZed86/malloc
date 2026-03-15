@@ -163,11 +163,12 @@ Each function has its own test that print expected vs Actual values, and reports
 - **`init_test`** - verifies initial heap state has one free block of correct size
 - **`malloc_test`** - tests basic allocation, size rounding to multiples of 4, multiple allocations, invalid inputs (0, negative, too large)
 - **`calloc_test`** - tests allocation of zeroed memory, verifies every byte is zero, tests invalid inputs
-- **`memset_test`** - tests setting bytes to a value, verifies every byte is correct, tests boundary values (0, 255), tests invalid inputs
+- **`memset_test`** - tests setting bytes to a value, verifies every byte is correct tests boundary values (0, 255), tests invalid inputs.  
+  - since `memzero301` simply calls memzero this test also tests `memzero301`
 - **`free_test`** - 
 - **`memcpy_test`** - 
-- **`realloc_test`** -
-- **`memzero_test`** -  
+- **`realloc_test`** - 
+
 ### Memory Leak Testing
 
 ```bash
