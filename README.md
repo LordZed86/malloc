@@ -86,7 +86,7 @@ internally to get the team up to speed. Chief bully.
 
 ### Milestone 2
 <!-- initial roles randomly assigned but this will probably change as we code the rest of this project -->
-**Lore** - Implemented `memcpy301` and `sizeof301`. Contributed to 
+**Lore** - Implemented `memcpy301`, `realloc301` and `sizeof301`. Contributed to 
 `test.c` including test cases and CHECK macro for pass/fail validation.
 
 **Joe** - Implemented `memzero301` and contributed to `test.c` 
