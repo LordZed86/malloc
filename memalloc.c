@@ -3,7 +3,8 @@
  * Authors: Lore, Joe, Kellen
  * CS 301 - Malloc Project
  * March 2026
-// for reference while we build this stuff, I think this fits better in the memimple notes with the strucst
+// for reference while we build this stuff, I think this fits better in the 
+    memimple notes with the strucst
  * **IMPORTANT**
  * Storing into node->size -> (divide by 4) shift >> right by 2
  * Reading from node->size -> (multiply by 4) shift << left by 2
@@ -96,8 +97,15 @@ void* calloc301(int num, int size){
 
 
 // No actual idea why this is here but it's referenced so we ball I guess
+// you should look the regular function up Joe, then you would know this is to 
+// resize a memory block.
 void* realloc301(void* p, int size){
-    return NULL;
+    // no discription on canvas for all that we need to do here,
+    // currently set up so that if the size is smaller extra stuff is deleted
+    void* new = malloc301(size);
+    memcpy301(new, p, size);
+    free301(p);
+    return new;
 }
 
 void free301(void* p){
@@ -108,10 +116,43 @@ void free301(void* p){
     // set node to free
     current->free = 1;
     // check if next block is free and merge appropriatly
-    // check if previous node is free and merge if needed - finding the previous
-    // node is hard to do lol.
-    }
+    // check for current block
+    if (current->last ==0) {
+        node* next = (node*)((char*)current + NODE_SIZE + (current->size << 2)); 
+        // Check for next block
+        if (next->free == 1) {
+            // merge current and next by adding their sizes together
+            current->size = current->size + next->size + (NODE_SIZE >> 2); 
+            //push forward
+            current->last = next->last;
+        }
 
+        }
+        // check if previous node is free and merge if needed
+        //traverse from head to find previous node (only if not the first block)
+        if (current != GLOBAL_HEAP.head) {
+        node* prev = GLOBAL_HEAP.head;
+        node* found_prev = NULL;
+
+        // push through the list til there's a block who's next is current
+        while (prev != NULL && !prev->last && found_prev == NULL) {
+            node* next_block = (node*)((char*)prev + NODE_SIZE +
+            (prev->size << 2));
+            if (next_block == current) {
+                found_prev = prev;
+            } else {
+                prev = next_block;
+            }
+        }
+
+        // if we found a previous block and it is free, merge it with current
+        if (found_prev != NULL && found_prev->free == 1) {
+            found_prev->size = found_prev->size + current->size +
+            (NODE_SIZE >> 2);
+            found_prev->last = current->last;
+        }
+    }
+}
 }
 
 int sizeof301(void* p) {

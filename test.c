@@ -11,15 +11,19 @@
 #include <stdlib.h>
 #include "memalloc.h"
 #include "memdebug.h"
+#include "memops.h"
 
+// add these defines at the top of test.c
+#define RED     "\033[0;31m"
+#define GREEN   "\033[0;32m"
+#define RESET   "\033[0m"
 
 // prints expected vs actual and returns false if they dont match
-#define CHECK(expected, actual, msg)                    \
-    printf("  %s: expected %d got %d -> %s\n",          \
-           msg, expected, actual,                       \
-           (expected == actual) ? "PASSED" : "FAILED"); \
-    if (expected != actual)                             \
-        return false;
+#define CHECK(expected, actual, msg) \
+    printf("  %s: expected %d got %d -> %s\n", \
+    msg, expected, actual, \
+    (expected == actual) ? GREEN "PASSED" RESET : RED "FAILED" RESET); \
+    if (expected != actual) return false;
 
 #define HEAP_SIZE 2048
 
@@ -28,7 +32,7 @@ static void *heap_test;
 // functions to test each of the functions in memalloc.c
 bool init_test()
 {
-    printf("********** init_test **********\n");
+    printf("********** init_test **********\n\n");
 
 // reset heap for fresh start
     init301(heap_test, HEAP_SIZE);
@@ -46,7 +50,7 @@ bool init_test()
 }
 
 bool malloc_test() {
-    printf("=== malloc_test ===\n");
+    printf("********** malloc_test **********\n\n");
     
     // reset heap to clean state
     init301(heap_test, HEAP_SIZE);
@@ -85,7 +89,7 @@ bool malloc_test() {
 }
 
 bool calloc_test() {
-    printf("=== calloc_test ===\n");
+    printf("********** calloc_test **********\n\n");
     
     // reset heap to clean state
     init301(heap_test, HEAP_SIZE);
@@ -106,7 +110,7 @@ bool calloc_test() {
         }
     }
     printf("  memory zeroed: expected 1 got %d -> %s\n",
-        zeroed, zeroed ? "PASSED" : "FAILED");
+        zeroed, zeroed ? GREEN "PASSED" RESET : RED "FAILED" RESET);
     if (!zeroed) return false;
     
     // test invalid inputs
@@ -123,20 +127,183 @@ bool calloc_test() {
     return true;
 }  
 
+bool free_test() {
+    printf("********** free_test **********\n\n");
+
+    //reset heap to clean tate
+    init301(heap_test, HEAP_SIZE);
+
+    // Allocate 3 blocks to test free in both directions
+    void *a = malloc301(100);
+    void *b = malloc301(200);
+    void *c = malloc301(300);
+
+    printf("After three allocations (A=100, B=200, C=300);\n");
+    print_blocks();
+    // Checks to see if I did it right 
+    CHECK(100, sizeof301(a), "A size");
+    CHECK(200, sizeof301(b), "B size");
+    CHECK(300, sizeof301(c), "C size");
+
+    // free middle block B and test if it becomes free and coalesce forward
+    free301(b);
+    printf("After free301(B):\n");
+    print_blocks();
+
+    // check if A and C are still used because only B should have been free
+    CHECK(100, sizeof301(a), "A size after freeing B");
+    CHECK(300, sizeof301(c), "C size after freeing B");
+
+    //Free C, should merge B and C into a single free block
+    free301(c);
+    printf("After free301(C) (Will coalesce with B):\n");
+    print_blocks();
+
+    void *d = malloc301(400);
+    printf("After malloc301(400) into merged free space:\n");
+    print_blocks();
+    CHECK(400, sizeof301(d), "malloc 400 into merged B and C");
+
+    //test backward coalescing by freeing A then D and verify space is changed
+    free301(a);
+    free301(d);
+    printf("After free301(A) and free301(D) will coalesce all:");
+    print_blocks();
+
+    void *e = malloc301(HEAP_SIZE / 2);
+    printf("After malloc301(HEAP_SIZE / 2) from fully coalesced free block:\n");
+    print_blocks();
+    CHECK(HEAP_SIZE / 2, sizeof301(e), "malloc large after full coalesce");
+
+    // test NULL to see if it does nothing and doesn't crash.
+    free301(NULL);
+    printf("After free301(NULL) will be no-op\n");
+    print_blocks();
+
+    printf("\n");
+    return true;
+}
+
+bool memset_test() {
+    printf("********** memset_test **********\n\n");
+    init301(heap_test, HEAP_SIZE);
+    
+    // test basic memset
+    void *a = malloc301(20);
+    memset301(a, 5, 20);
+    
+    // verify every byte is set to 5
+    char *bytes = (char*)a;
+    bool correct = true;
+    for (int i = 0; i < 20; i++) {
+        if (bytes[i] != 5) {
+            correct = false;
+            break;
+        }
+    }
+    printf("  memset to 5: expected 1 got %d -> %s\n",
+        correct, correct ? GREEN "PASSED" RESET : RED "FAILED" RESET);
+    if (!correct) return false;
+
+    // test memset to 0
+    memset301(a, 0, 20);
+    bool zeroed = true;
+    for (int i = 0; i < 20; i++) {
+        if (bytes[i] != 0) {
+            zeroed = false;
+            break;
+        }
+    }
+    printf("  memset to 0: expected 1 got %d -> %s\n",
+        zeroed, zeroed ? GREEN "PASSED" RESET : RED "FAILED" RESET);
+    if (!zeroed) return false;
+
+    // test NULL pointer returns NULL
+    void *b = memset301(NULL, 5, 20);
+    CHECK(0, (b == NULL ? 0 : 1), "memset NULL returns NULL");
+
+    // test size <= 0 returns NULL
+    void *c = memset301(a, 5, 0);
+    CHECK(0, (c == NULL ? 0 : 1), "memset size 0 returns NULL");
+
+    // test memset with max byte value 255
+    memset301(a, 255, 20);
+    bool maxed = true;
+    for (int i = 0; i < 20; i++) {
+        if ((unsigned char)bytes[i] != 255) {
+            maxed = false;
+            break;
+        }
+    }
+    printf("  memset to 255: expected 1 got %d -> %s\n",
+        maxed, maxed ? GREEN "PASSED" RESET : RED "FAILED" RESET);
+    if (!maxed) return false;
+
+    printf("\n");
+    return true;
+}
+
+bool memcpy_test() {
+    printf("********** memcpy_test **********\n\n");
+    // Allocate 2 blocks
+    void *a = malloc301(100);
+    void *b = malloc301(200);
+        // fill a with 1s and b with 2s
+    memset301(a, 1, 100);
+    memset301(b, 2, 200);
+    printf("After allocating A=100 and B=200 and setting A to 1s and B to 2s:\n");
+    for (int i = 0; i < 100; i++) {
+        if (((char*)a)[i] != 1) {
+            printf("  setup failed at byte %d of A: expected 1 got %d -> %s\n",
+                i, ((char*)a)[i], RED "FAILED" RESET);
+            return false;
+        }
+    }
+    for (int i = 0; i < 200; i++) {
+        if (((char*)b)[i] != 2) {
+            printf("  setup failed at byte %d of B: expected 2 got %d -> %s\n",
+                i, ((char*)b)[i], RED "FAILED" RESET);
+            return false;
+        }
+    }
+    printf("  setup correct: A is 1s and B is 2s -> %s\n", GREEN "PASSED" RESET);
+
+    // copy a to b and verify first 100 bytes of b are now 1s
+    memcpy301(b, a, 100);
+    printf("After memcpy301(B, A, 100) (copy A to B):\n");
+    //for loop to compare first 100 bytes of b to 1
+    for (int i = 0; i < 100; i++) {
+        if (((char*)b)[i] != 1) {
+            printf("  memcpy failed at byte %d: expected 1 got %d -> %s\n",
+                i, ((char*)b)[i], RED "FAILED" RESET);
+            return false;
+        }
+    }
+    printf("  memcpy first 100 bytes of B are 1s: expected 1 got 1 -> %s\n",
+        GREEN "PASSED" RESET);
+    printf("\n");
+    
+    return true;
+}
+
+
 
 int main (void){
     // create heap for testing
     heap_test = malloc(HEAP_SIZE);
     init301(heap_test, HEAP_SIZE);
 
-    // Tests tor init301
-    printf("init_test:   %s\n", init_test()   ? "PASSED" : "FAILED");
+    printf("init_test:   %s\n\n", init_test()   ? GREEN "PASSED" RESET : RED "FAILED" RESET);
 
-    // TODO: add tests for Malloc301
-    printf("malloc_test: %s\n", malloc_test() ? "PASSED" : "FAILED");
+    printf("malloc_test: %s\n\n", malloc_test() ? GREEN "PASSED" RESET : "FAILED" RESET);
+
+    printf("free_test: %s\n\n", free_test() ? GREEN "PASSED" RESET : "FAILED" RESET);
     
-    // TODO: add tests for calloc301
-    printf("calloc_test: %s\n", calloc_test() ? "PASSED" : "FAILED");
+    printf("calloc_test: %s\n\n", calloc_test() ? GREEN "PASSED" RESET : "FAILED" RESET);
+
+    printf("memset_test: %s\n\n", memset_test() ? GREEN "PASSED" RESET : RED "FAILED" RESET);
+
+    printf("memcpy_test: %s\n\n", memcpy_test() ? GREEN "PASSED" RESET : RED "FAILED" RESET);
 
     // free the heap block when done
     free(heap_test);
