@@ -131,27 +131,28 @@ void free301(void* p){
         // check if previous node is free and merge if needed
         //traverse from head to find previous node (only if not the first block)
         if (current != GLOBAL_HEAP.head) {
-            node* prev = GLOBAL_HEAP.head;
-            // traverse until we find the node right before current
-            while (prev != NULL && prev->last == 0 ) {
-                // jump forward through the list until we find the block right 
-                //before current
-                node* next_block = NULL;
-                while (next_block != current) {
-                    prev = next_block;
-                    next_block = (node*)((char*)prev + NODE_SIZE + 
-                    (prev->size << 2));
-                }
-            }
-            // if previous block is free, merge it with current
-            if (prev != NULL && prev->free == 1) {
-                prev->size = prev->size + current->size + (NODE_SIZE >> 2);
-                // push forward
-                prev->last = current->last;
+        node* prev = GLOBAL_HEAP.head;
+        node* found_prev = NULL;
+
+        // push through the list til there's a block who's next is current
+        while (prev != NULL && !prev->last && found_prev == NULL) {
+            node* next_block = (node*)((char*)prev + NODE_SIZE +
+            (prev->size << 2));
+            if (next_block == current) {
+                found_prev = prev;
+            } else {
+                prev = next_block;
             }
         }
-    }
 
+        // if we found a previous block and it is free, merge it with current
+        if (found_prev != NULL && found_prev->free == 1) {
+            found_prev->size = found_prev->size + current->size +
+            (NODE_SIZE >> 2);
+            found_prev->last = current->last;
+        }
+    }
+}
 }
 
 int sizeof301(void* p) {

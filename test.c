@@ -127,6 +127,63 @@ bool calloc_test() {
     return true;
 }  
 
+bool free_test() {
+    printf("********** free_test **********\n\n");
+
+    //reset heap to clean tate
+    init301(heap_test, HEAP_SIZE);
+
+    // Allocate 3 blocks to test free in both directions
+    void *a = malloc301(100);
+    void *b = malloc301(200);
+    void *c = malloc301(300);
+
+    printf("After three allocations (A=100, B=200, C=300);\n");
+    print_blocks();
+    // Checks to see if I did it right 
+    CHECK(100, sizeof301(a), "A size");
+    CHECK(200, sizeof301(b), "C size");
+    CHECK(300, sizeof301(c), "C size");
+
+    // free middle block B and test if it becomes free and coalesce forward
+    free301(b);
+    printf("After free301(B):\n");
+    print_blocks();
+
+    // check if A and C are still used because only B should have been free
+    CHECK(100, sizeof301(a), "A size after freeing B");
+    CHECK(300, sizeof301(c), "C size after freeing B");
+
+    //Free C, should merge B and C into a single free block
+    free301(c);
+    printf("After free301(C) (Will coalesce with B):\n");
+    print_blocks();
+
+    void *d = malloc301(400);
+    printf("After malloc301(400) into merged free space:\n");
+    print_blocks();
+    CHECK(400, sizeof301(d), "malloc 400 into merged B and C");
+
+    //test backward coalescing by freeing A then D and verify space is changed
+    free301(a);
+    free301(d);
+    printf("After free301(A) and free301(D) willcoalesce all:");
+    print_blocks();
+
+    void *e = malloc301(HEAP_SIZE / 2);
+    printf("After malloc301(HEAP_SIZE / 2) from fully coalesced free block:\n");
+    print_blocks();
+    CHECK(HEAP_SIZE / 2, sizeof301(e), "mallock large after full coalesce");
+
+    // test NULL to see if it does nothing and doesn't crash.
+    free301(NULL);
+    printf("After free301(NULL) will be no-op\n");
+    print_blocks();
+
+    printf("\n");
+    return true;
+}
+
 bool memset_test() {
     printf("********** memset_test **********\n\n");
     init301(heap_test, HEAP_SIZE);
