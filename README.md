@@ -199,7 +199,6 @@ make mac_leaks   # Mac
 ## 🪞 Reflection
 <!-- Spec requires: "A very brief reflection: What parts were hardest?
 What parts were fun or interesting?" -->
-## TODO: write reflections on the project
 
 **Lore** -  
     i had a hard time wrapping my head arpound th bit manipulation, once i got through that i found the realloc amd memops stuff a bit fun.
