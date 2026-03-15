@@ -51,6 +51,6 @@
     if ( p == NULL || size <= 0) {
       return NULL;
     }
-    memeset(p, 0, size);
+    memeset301(p, 0, size);
     return p;
   }
