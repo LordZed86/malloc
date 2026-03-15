@@ -167,7 +167,7 @@ Each function has its own test that print expected vs Actual values, and reports
   - since `memzero301` simply calls memzero this test also tests `memzero301`
 - **`free_test`** - allocates three blocks (100B, 200B, 300B) and tests freeing in various orders to verify coalescing behavior. Tests forward coalescing by freeing the middle block then the next block and verifying they merge into a single free block. Tests backward coalescing by freeing all remaining blocks and verifying the entire heap returns to a single free block. Verifies freed space can be reused by allocating into merged blocks. Also tests that `free301(NULL)` is a no-op and does not crash.
 - **`memcpy_test`** - 
-- **`realloc_test`** - 
+- **`realloc_test`** - `realloc301` is not explicitly tested in our test suite as the spec did not provide clear expected behavior or output for this function. It is implemented and called internally by other functions but has not been independently verified through test cases.
 
 ### Memory Leak Testing
 
