@@ -165,7 +165,7 @@ Each function has its own test that print expected vs Actual values, and reports
 - **`calloc_test`** - tests allocation of zeroed memory, verifies every byte is zero, tests invalid inputs
 - **`memset_test`** - tests setting bytes to a value, verifies every byte is correct tests boundary values (0, 255), tests invalid inputs.  
   - since `memzero301` simply calls memzero this test also tests `memzero301`
-- **`free_test`** - 
+- **`free_test`** - allocates three blocks (100B, 200B, 300B) and tests freeing in various orders to verify coalescing behavior. Tests forward coalescing by freeing the middle block then the next block and verifying they merge into a single free block. Tests backward coalescing by freeing all remaining blocks and verifying the entire heap returns to a single free block. Verifies freed space can be reused by allocating into merged blocks. Also tests that `free301(NULL)` is a no-op and does not crash.
 - **`memcpy_test`** - 
 - **`realloc_test`** - 
 
