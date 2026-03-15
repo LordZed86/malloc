@@ -142,7 +142,7 @@ bool free_test() {
     print_blocks();
     // Checks to see if I did it right 
     CHECK(100, sizeof301(a), "A size");
-    CHECK(200, sizeof301(b), "C size");
+    CHECK(200, sizeof301(b), "B size");
     CHECK(300, sizeof301(c), "C size");
 
     // free middle block B and test if it becomes free and coalesce forward
@@ -242,6 +242,11 @@ bool memset_test() {
     printf("\n");
     return true;
 }
+
+
+//add test for memcopy and realloc
+
+
 
 int main (void){
     // create heap for testing
