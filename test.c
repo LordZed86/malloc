@@ -251,6 +251,8 @@ int main (void){
     printf("init_test:   %s\n\n", init_test()   ? GREEN "PASSED" RESET : RED "FAILED" RESET);
 
     printf("malloc_test: %s\n\n", malloc_test() ? GREEN "PASSED" RESET : "FAILED" RESET);
+
+    printf("free_test: %s\n\n", free_test() ? GREEN "PASSED" RESET : "FAILED" RESET);
     
     printf("calloc_test: %s\n\n", calloc_test() ? GREEN "PASSED" RESET : "FAILED" RESET);
 
