@@ -48,9 +48,5 @@
 
   // we could probably just call memset(p, 0, size) which would cut down on redundance. that is if my memset is done right i guess.
   void* memzero301(void* p, int size){
-    if ( p == NULL || size <= 0) {
-      return NULL;
-    }
-    memset301(p, 0, size);
-    return p;
+    return memset301(p, 0, size);
   }
