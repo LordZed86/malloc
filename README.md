@@ -90,7 +90,7 @@ internally to get the team up to speed. Chief bully.
 `test.c` including test cases and CHECK macro for pass/fail validation.
 
 **Joe** - Implemented `memzero301` and contributed to `test.c` 
-including calloc and memzero test cases.
+including calloc and memzero, memcpy, and free test cases.
 
 **Kellen** - Implemented `memset301` and `free301` including block 
 coalescing logic. Contributed to `test.c` including free and memset 
@@ -166,7 +166,7 @@ Each function has its own test that print expected vs Actual values, and reports
 - **`memset_test`** - tests setting bytes to a value, verifies every byte is correct tests boundary values (0, 255), tests invalid inputs.  
   - since `memzero301` simply calls memzero this test also tests `memzero301`
 - **`free_test`** - allocates three blocks (100B, 200B, 300B) and tests freeing in various orders to verify coalescing behavior. Tests forward coalescing by freeing the middle block then the next block and verifying they merge into a single free block. Tests backward coalescing by freeing all remaining blocks and verifying the entire heap returns to a single free block. Verifies freed space can be reused by allocating into merged blocks. Also tests that `free301(NULL)` is a no-op and does not crash.
-- **`memcpy_test`** - 
+- **`memcpy_test`** -  allocates 2 blocks setting the value of A to 1's and B to 2's then tests `memcpy301` to copy the value from block A to block B.
 - **`realloc_test`** - `realloc301` is not explicitly tested in our test suite as the spec did not provide clear expected behavior or output for this function. It is implemented and called internally by other functions but has not been independently verified through test cases.
 
 ### Memory Leak Testing
@@ -203,7 +203,13 @@ What parts were fun or interesting?" -->
 
 **Lore** -  
     i had a hard time wrapping my head arpound th bit manipulation, once i got through that i found the realloc amd memops stuff a bit fun.
-**Joe** - 
+**Joe** -  I really struggled with the inital understanding of getting malloc
+working and really just how the bit packing and manipulation all worked together
+but once that kind of stuff was figured out and laid out I started to feel
+better about the memops and testing suite because I just had a little better
+understanding of what it was I needed to be doing. Overall, this was definitely
+the toughest project of the quarter for me so I'm happy to see the light at the
+end of the tunnel.
 
 **Kellen** - The most challenging part for me was wrapping my head around 
 `malloc301` and the overall node structure. Understanding how a linked list 

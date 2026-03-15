@@ -248,19 +248,39 @@ bool memcpy_test() {
     // Allocate 2 blocks
     void *a = malloc301(100);
     void *b = malloc301(200);
-    printf("After two allocations (A=100, B=200);\n");
-    print_blocks();
-
         // fill a with 1s and b with 2s
     memset301(a, 1, 100);
     memset301(b, 2, 200);
-    printf("After memset A to 1s and B to 2s:\n");
-    print_blocks();
+    printf("After allocating A=100 and B=200 and setting A to 1s and B to 2s:\n");
+    for (int i = 0; i < 100; i++) {
+        if (((char*)a)[i] != 1) {
+            printf("  setup failed at byte %d of A: expected 1 got %d -> %s\n",
+                i, ((char*)a)[i], RED "FAILED" RESET);
+            return false;
+        }
+    }
+    for (int i = 0; i < 200; i++) {
+        if (((char*)b)[i] != 2) {
+            printf("  setup failed at byte %d of B: expected 2 got %d -> %s\n",
+                i, ((char*)b)[i], RED "FAILED" RESET);
+            return false;
+        }
+    }
+    printf("  setup correct: A is 1s and B is 2s -> %s\n", GREEN "PASSED" RESET);
 
     // copy a to b and verify first 100 bytes of b are now 1s
     memcpy301(b, a, 100);
     printf("After memcpy301(B, A, 100) (copy A to B):\n");
-    print_blocks();
+    //for loop to compare first 100 bytes of b to 1
+    for (int i = 0; i < 100; i++) {
+        if (((char*)b)[i] != 1) {
+            printf("  memcpy failed at byte %d: expected 1 got %d -> %s\n",
+                i, ((char*)b)[i], RED "FAILED" RESET);
+            return false;
+        }
+    }
+    printf("  memcpy first 100 bytes of B are 1s: expected 1 got 1 -> %s\n",
+        GREEN "PASSED" RESET);
     printf("\n");
     
     return true;
