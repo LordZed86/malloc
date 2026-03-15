@@ -150,7 +150,35 @@ make mac_leaks  # Mac - runs test with macOS leaks tool
 ## 🔬 Testing
 <!-- Spec requires: "A brief description of the testing you have performed,
 the behavior of your test program, etc." -->
-## TODO: explain testing and edge cases
+All tests are located in `test.c` and can be run with:
+
+```bash
+make test
+./test
+```
+
+### Test Cases
+Each function has its own test that print expected vs Actual values, and reports if it passed or failed. some of the tests are redundant as tests were generally written as functions were completed to test functionality.
+
+- **`init_test`** - verifies initial heap state has one free block of correct size
+- **`malloc_test`** - tests basic allocation, size rounding to multiples of 4, multiple allocations, invalid inputs (0, negative, too large)
+- **`calloc_test`** - tests allocation of zeroed memory, verifies every byte is zero, tests invalid inputs
+- **`memset_test`** - tests setting bytes to a value, verifies every byte is correct, tests boundary values (0, 255), tests invalid inputs
+- **`free_test`** - 
+- **`memcpy_test`** - 
+- **`realloc_test`** -
+- **`memzero_test`** -  
+### Memory Leak Testing
+
+```bash
+make valgrind    # Linux/WSL
+make mac_leaks   # Mac
+```
+
+### Testing Strategy
+
+- Tests are independent - each resets the heap with `init301` before running
+- this way they can be commented out individually without affecting other tests.
 
 ---
 
