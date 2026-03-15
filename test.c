@@ -167,13 +167,13 @@ bool free_test() {
     //test backward coalescing by freeing A then D and verify space is changed
     free301(a);
     free301(d);
-    printf("After free301(A) and free301(D) willcoalesce all:");
+    printf("After free301(A) and free301(D) will coalesce all:");
     print_blocks();
 
     void *e = malloc301(HEAP_SIZE / 2);
     printf("After malloc301(HEAP_SIZE / 2) from fully coalesced free block:\n");
     print_blocks();
-    CHECK(HEAP_SIZE / 2, sizeof301(e), "mallock large after full coalesce");
+    CHECK(HEAP_SIZE / 2, sizeof301(e), "malloc large after full coalesce");
 
     // test NULL to see if it does nothing and doesn't crash.
     free301(NULL);
