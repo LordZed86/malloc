@@ -243,8 +243,28 @@ bool memset_test() {
     return true;
 }
 
+bool memcpy_test() {
+    printf("********** memcpy_test **********\n\n");
+    // Allocate 2 blocks
+    void *a = malloc301(100);
+    void *b = malloc301(200);
+    printf("After two allocations (A=100, B=200);\n");
+    print_blocks();
 
-//add test for memcopy and realloc
+        // fill a with 1s and b with 2s
+    memset301(a, 1, 100);
+    memset301(b, 2, 200);
+    printf("After memset A to 1s and B to 2s:\n");
+    print_blocks();
+
+    // copy a to b and verify first 100 bytes of b are now 1s
+    memcpy301(b, a, 100);
+    printf("After memcpy301(B, A, 100) (copy A to B):\n");
+    print_blocks();
+    printf("\n");
+    
+    return true;
+}
 
 
 
@@ -262,6 +282,8 @@ int main (void){
     printf("calloc_test: %s\n\n", calloc_test() ? GREEN "PASSED" RESET : "FAILED" RESET);
 
     printf("memset_test: %s\n\n", memset_test() ? GREEN "PASSED" RESET : RED "FAILED" RESET);
+
+    printf("memcpy_test: %s\n\n", memcpy_test() ? GREEN "PASSED" RESET : RED "FAILED" RESET);
 
     // free the heap block when done
     free(heap_test);
