@@ -51,6 +51,6 @@
     if ( p == NULL || size <= 0) {
       return NULL;
     }
-    memeset301(p, 0, size);
+    memset301(p, 0, size);
     return p;
   }
