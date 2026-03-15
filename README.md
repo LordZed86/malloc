@@ -205,8 +205,22 @@ What parts were fun or interesting?" -->
 
 **Joe** - 
 
-**Kellen** - 
+**Kellen** - The most challenging part for me was wrapping my head around 
+`malloc301` and the overall node structure. Understanding how a linked list 
+could live inside the memory it was managing, with no separate allocation, 
+took a while to click. The bit-packing was also initially confusing, cramming 
+size, free, and last flags into exactly 4 bytes felt abstract at first.
 
+Once I was able to visualize what was actually happening in memory - nodes 
+sitting directly in front of the blocks they describe, the list growing and 
+splitting as allocations came in, everything started to make sense. At that 
+point the bit shifting arithmetic and offset storage felt natural rather than 
+arbitrary. Seeing `print_blocks` output the heap state in real time was the 
+moment it all came together.
+
+Overall it ended up being one of the more interesting and challenging projects I've worked on. 
+Low level memory management sounds intimidating but once you understand the 
+mental model it's surprisingly elegant.
 
 ---
 
