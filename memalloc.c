@@ -100,9 +100,10 @@ void* calloc301(int num, int size){
 // you should look the regular function up Joe, then you would know this is to 
 // resize a memory block.
 void* realloc301(void* p, int size){
-    // 
-    // p->size = size;
-    return NULL;
+    void* new = malloc301(size);
+    memcpy301(new, p, size);
+    free301(p);
+    return new;
 }
 
 void free301(void* p){
