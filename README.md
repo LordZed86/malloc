@@ -9,6 +9,7 @@ Date: March 2026
 ---
 
 ## 🎯 Overview
+
 This project is a custom memory allocator written in C, it implements core  
 functions similar `<stdlib>`'s malloc/calloc and free. this allocator manages  
 a single block of memory using a linked list of 4-byte bit-packed node header  
@@ -18,82 +19,88 @@ adjacent blocks.
 ---
 
 ## 🏗️ Internal Design & algorithms
-<!-- Spec requires: "A brief description of how your allocation system works
-internally and any relevant algorithms not in this spec." -->
+
 ### Memory Layout
+
 This project manages a large block of memory passed in by the user through `init301`. This block is managed using a list header of 4-bytes, bit packed into the node. These nodes sit directly before the memory chunk they describe.
+
 ```text
 |[node 4B]|[memory chunk]|[node 4B]|[memory chunk]|[node 4B]|[memory chunk]|
 ```
+
 ### Node Struct
+
 Every header node is exactly 4 bytes. these are packed as follows:
+
 - 28 bits -> size -- stored in sets of 4 Bytes. (shift left 2 to get bytes)
 - 1 bit -> free ----- binary marker to signify if the trailing block is in use or not. (1 = free | 0 = in-use)
 - 1 bit -> last ------ binary marker to signify if the node is the last in the list.
 - 2 bits -> reserved for additional binary markers, and to ensure everything stays in chunks of 4 bytes.
 
 ### Algorithms
+
 **First-Fit**  
-`malloc301` scans the memory block starting at the head and uses the first free chunk that is large enough to hold the request. The size of the request is rounded up to the nearest multiple of 4 using an ADD, SHIFT, SHIFT method `((size + 3) >> 2) << 2`.  
+`malloc301` scans the memory block starting at the head and uses the first free chunk that is large enough to hold the request. The size of the request is rounded up to the nearest multiple of 4 using an ADD, SHIFT, SHIFT method `((size + 3) >> 2) << 2`.
+
 - ADD 3 to ensure we round up
 - SHIFT right by 2 (divide by 4) to do the actual rounding, odd numbers will have the remainder dropped.
 - SHIFT left by 2 (multiply by 4) to return to the original size domain.
 
 **Block Split**  
-When a free block is larger than needed, it is split into two blocks - one 
-allocated to the request and one is left free. The leftover must be larger than 
+When a free block is larger than needed, it is split into two blocks - one
+allocated to the request and one is left free. The leftover must be larger than
 NODE_SIZE (4 Bytes) to be worth splitting.
 
 **Coalescing**  
-If block is freed, all free neighboring blocks are merged into a single larger 
+If block is freed, all free neighboring blocks are merged into a single larger
 block to prevent fragmentation. a maximum of 3 blocks can be merged at once -
 the previous block, the freed block, and the next block.
 
 **Bit-Packing and Offset Storage**  
 Block sizes are stored as 4-byte units rather than raw bytes using bit shifts:
+
 - Storing: `size >> 2` (divide by 4)
 - Retrieving: `size << 2` (multiply by 4)
 - Navigating: `current + NODE_SIZE + (current->size << 2)`
 
 **In-Place Linked List**  
-Nodes are stored directly inside the memory block with no separate 
+Nodes are stored directly inside the memory block with no separate
 allocation. The next node is found mathematically instead of using pointers, this keeps each node exactly 4 bytes.
 
 **Byte-Level Memory Operations**  
-`memcpy301`, `memset301`, and `memzero301` cast pointers to `char*` to 
-manipulate memory one byte at a time, since `void*` mathematically moves in 
+`memcpy301`, `memset301`, and `memzero301` cast pointers to `char*` to
+manipulate memory one byte at a time, since `void*` mathematically moves in
 4-byte increments.
 
 ---
 
 ## 👥 Team Responsabilities
-<!-- Spec requires: "Who was responsible for which part(s) of the work." 
- running list based on who contributed the most to each section not necessarily by physically tuyping and committing but by overall contribution intelectually or conceptually -->
- ### Milestone 1
 
-**Lore** - Led implementation of `malloc301` and `memdebug`, including 
-first-fit allocation strategy, block splitting logic, and offset bit shift 
+### Milestone 1
+
+**Lore** - Led implementation of `malloc301` and `memdebug`, including
+first-fit allocation strategy, block splitting logic, and offset bit shift
 arithmetic. Contributed to overall system design and debugging.
 
-**Joe** — Implemented `calloc301`, `memzero301`, and `get_heap_head`. 
-Contributed to initial stub of `free301`. Also served as emotional support 
+**Joe** — Implemented `calloc301`, `memzero301`, and `get_heap_head`.
+Contributed to initial stub of `free301`. Also served as emotional support
 for the team and was "bullied" by Kellen.
 
-**Kellen** - Designed and implemented `memimpl.h` struct layout, bit-packing 
-system, and offset storage strategy. Implemented `init301` and contributed 
-to `malloc301`. Provided architectural guidance on how malloc works 
+**Kellen** - Designed and implemented `memimpl.h` struct layout, bit-packing
+system, and offset storage strategy. Implemented `init301` and contributed
+to `malloc301`. Provided architectural guidance on how malloc works
 internally to get the team up to speed. Chief bully.
 
 ### Milestone 2
-<!-- initial roles randomly assigned but this will probably change as we code the rest of this project -->
-**Lore** - Implemented `memcpy301`, `realloc301` and `sizeof301`. Contributed to 
+
+**Lore** - Implemented `memcpy301`, `realloc301` and `sizeof301`. Contributed to
 `test.c` including test cases and CHECK macro for pass/fail validation.
 
-**Joe** - Implemented `memzero301` and contributed to `test.c` 
+**Joe** - Implemented `memzero301` and contributed to `test.c`
 including calloc and memzero, memcpy, and free test cases.
 
-**Kellen** - Implemented `memset301` and `free301` including block 
-coalescing logic. Contributed to `test.c` including free and memset 
+**Kellen** - Implemented `memset301` and `free301` including block
+coalescing logic. Contributed to `test.c` including free and memset
 test cases.
 
 ---
@@ -127,6 +134,7 @@ make dist     # Create cs301project.tar.gz for submission
 ```
 
 ### Run
+
 ```bash
 ./test        # Runs the test program
 ```
@@ -158,6 +166,7 @@ make test
 ```
 
 ### Test Cases
+
 Each function has its own test that print expected vs Actual values, and reports if it passed or failed. some of the tests are redundant as tests were generally written as functions were completed to test functionality.
 
 - **`init_test`** - verifies initial heap state has one free block of correct size
@@ -184,6 +193,7 @@ make mac_leaks   # Mac
 ---
 
 ## 📦 Resources Used
+
 - Course slides and lecture notes
 - Assignment specification
 - [C Documentation - cppreference](https://en.cppreference.com/index.html) - general C language reference
@@ -194,14 +204,13 @@ make mac_leaks   # Mac
 - [Memory Alignment and Padding - Wikipedia](https://en.wikipedia.org/wiki/Data_structure_alignment) - data alignment and padding reference
 - [Valgrind Documentation](https://valgrind.org/docs/manual/manual.html) - memory leak testing on Linux/WSL
 - [Mac OSX Leaks Tool](https://leopard-adc.pepas.com/documentation/Darwin/Reference/ManPages/index.html) - memory leak testing on Mac
+
 ---
 
 ## 🪞 Reflection
-<!-- Spec requires: "A very brief reflection: What parts were hardest?
-What parts were fun or interesting?" -->
 
-**Lore** -  
-    i had a hard time wrapping my head arpound th bit manipulation, once i got through that i found the realloc amd memops stuff a bit fun.
+**Lore** - i had a hard time wrapping my head arpound th bit manipulation, once i got through that i found the realloc amd memops stuff a bit fun.
+
 **Joe** -  I really struggled with the inital understanding of getting malloc
 working and really just how the bit packing and manipulation all worked together
 but once that kind of stuff was figured out and laid out I started to feel
@@ -210,21 +219,21 @@ understanding of what it was I needed to be doing. Overall, this was definitely
 the toughest project of the quarter for me so I'm happy to see the light at the
 end of the tunnel.
 
-**Kellen** - The most challenging part for me was wrapping my head around 
-`malloc301` and the overall node structure. Understanding how a linked list 
-could live inside the memory it was managing, with no separate allocation, 
-took a while to click. The bit-packing was also initially confusing, cramming 
+**Kellen** - The most challenging part for me was wrapping my head around
+`malloc301` and the overall node structure. Understanding how a linked list
+could live inside the memory it was managing, with no separate allocation,
+took a while to click. The bit-packing was also initially confusing, cramming
 size, free, and last flags into exactly 4 bytes felt abstract at first.
 
-Once I was able to visualize what was actually happening in memory - nodes 
-sitting directly in front of the blocks they describe, the list growing and 
-splitting as allocations came in, everything started to make sense. At that 
-point the bit shifting arithmetic and offset storage felt natural rather than 
-arbitrary. Seeing `print_blocks` output the heap state in real time was the 
+Once I was able to visualize what was actually happening in memory - nodes
+sitting directly in front of the blocks they describe, the list growing and
+splitting as allocations came in, everything started to make sense. At that
+point the bit shifting arithmetic and offset storage felt natural rather than
+arbitrary. Seeing `print_blocks` output the heap state in real time was the
 moment it all came together.
 
-Overall it ended up being one of the more interesting and challenging projects I've worked on. 
-Low level memory management sounds intimidating but once you understand the 
+Overall it ended up being one of the more interesting and challenging projects I've worked on.
+Low level memory management sounds intimidating but once you understand the
 mental model it's surprisingly elegant.
 
 ---
