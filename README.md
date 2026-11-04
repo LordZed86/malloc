@@ -14,7 +14,7 @@ This project is a custom memory allocator written in C, it implements core funct
 
 ---
 
-## 🏗️ Internal Design & algorithms
+## 🏗️ Internal Design & Algorithms
 
 ### Memory Layout
 
@@ -26,7 +26,7 @@ This project manages a large block of memory passed in by the user through `init
 
 ### Node Struct
 
-Every header node is exactly 4 bytes. these are packed as follows:
+Every header node is exactly 4 bytes. These are packed as follows:
 
 - 28 bits -> size -- stored in sets of 4 Bytes. (shift left 2 to get bytes)
 - 1 bit -> free ----- binary marker to signify if the trailing block is in use or not. (1 = free | 0 = in-use)
@@ -46,7 +46,7 @@ Every header node is exactly 4 bytes. these are packed as follows:
 When a free block is larger than needed, it is split into two blocks - one allocated to the request and one is left free. The leftover must be larger than NODE_SIZE (4 Bytes) to be worth splitting.
 
 **Coalescing**  
-If block is freed, all free neighboring blocks are merged into a single larger block to prevent fragmentation. A maximum of 3 blocks can be merged at once - the previous block, the freed block, and the next block.
+If a block is freed, all free neighboring blocks are merged into a single larger block to prevent fragmentation. A maximum of 3 blocks can be merged at once - the previous block, the freed block, and the next block.
 
 **Bit-Packing and Offset Storage**  
 Block sizes are stored as 4-byte units rather than raw bytes using bit shifts:
@@ -144,16 +144,16 @@ make test
 
 ### Test Cases
 
-Each function has its own test that print expected vs Actual values, and reports if it passed or failed. some of the tests are redundant as tests were generally written as functions were completed to test functionality.
+Each function has its own test that prints expected vs. actual values, and reports if it passed or failed. Some of the tests are redundant as tests were generally written as functions were completed to test functionality.
 
 - **`init_test`** - verifies initial heap state has one free block of correct size
 - **`malloc_test`** - tests basic allocation, size rounding to multiples of 4, multiple allocations, invalid inputs (0, negative, too large)
 - **`calloc_test`** - tests allocation of zeroed memory, verifies every byte is zero, tests invalid inputs
-- **`memset_test`** - tests setting bytes to a value, verifies every byte is correct tests boundary values (0, 255), tests invalid inputs.  
-  - since `memzero301` simply calls memzero this test also tests `memzero301`
+- **`memset_test`** - tests setting bytes to a value, verifies every byte is correct, tests boundary values (0, 255), tests invalid inputs.
+  - Since `memzero301` simply calls `memset301` this test also tests `memzero301`
 - **`free_test`** - allocates three blocks (100B, 200B, 300B) and tests freeing in various orders to verify coalescing behavior. Tests forward coalescing by freeing the middle block then the next block and verifying they merge into a single free block. Tests backward coalescing by freeing all remaining blocks and verifying the entire heap returns to a single free block. Verifies freed space can be reused by allocating into merged blocks. Also tests that `free301(NULL)` is a no-op and does not crash.
 - **`memcpy_test`** -  allocates 2 blocks setting the value of A to 1's and B to 2's then tests `memcpy301` to copy the value from block A to block B.
-- **`realloc_test`** - `realloc301` is not explicitly tested in our test suite as the spec did not provide clear expected behavior or output for this function. It is implemented and called internally by other functions but has not been independently verified through test cases.
+- **`realloc_test`** - `realloc301` is implemented but not covered by the test suite, since the spec didn’t define its expected behavior.
 
 ### Memory Leak Testing
 
@@ -165,7 +165,7 @@ make mac_leaks   # Mac
 ### Testing Strategy
 
 - Tests are independent - each resets the heap with `init301` before running
-- this way they can be commented out individually without affecting other tests.
+- This way they can be commented out individually without affecting other tests.
 
 ---
 
@@ -180,53 +180,18 @@ make mac_leaks   # Mac
 - [First-Fit Memory Allocation - Wikipedia](https://en.wikipedia.org/wiki/First-fit_bin_packing) - first-fit allocation algorithm
 - [Memory Alignment and Padding - Wikipedia](https://en.wikipedia.org/wiki/Data_structure_alignment) - data alignment and padding reference
 - [Valgrind Documentation](https://valgrind.org/docs/manual/manual.html) - memory leak testing on Linux/WSL
-- [Mac OSX Leaks Tool](https://leopard-adc.pepas.com/documentation/Darwin/Reference/ManPages/index.html) - memory leak testing on Mac
+- [Mac OSX Leaks Tool](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/ManagingMemory/Articles/FindingLeaks.html) - memory leak testing on Mac
 
 ---
 
 ## 🪞 Reflection
 
-**Lore** - I had a hard time wrapping my head around the bit manipulation, once I got through that I found the realloc amd memops stuff a bit fun.
+**Lore** - I had a hard time wrapping my head around the bit manipulation, once I got through that I found the realloc and memops stuff a bit fun.
 
-**Joe** -  I really struggled with the inital understanding of getting malloc working and really just how the bit packing and manipulation all worked together but once that kind of stuff was figured out and laid out I started to feel better about the memops and testing suite because I just had a little better understanding of what it was I needed to be doing. Overall, this was definitely the toughest project of the quarter for me so I'm happy to see the light at the end of the tunnel.
+**Joe** -  I really struggled with the initial understanding of getting malloc working and really just how the bit packing and manipulation all worked together but once that kind of stuff was figured out and laid out I started to feel better about the memops and testing suite because I just had a little better understanding of what it was I needed to be doing. Overall, this was definitely the toughest project of the quarter for me so I'm happy to see the light at the end of the tunnel.
 
 **Kellen** - The most challenging part for me was wrapping my head around `malloc301` and the overall node structure. Understanding how a linked list could live inside the memory it was managing, with no separate allocation, took a while to click. The bit-packing was also initially confusing, cramming size, free, and last flags into exactly 4 bytes felt abstract at first.
 
 Once I was able to visualize what was actually happening in memory - nodes sitting directly in front of the blocks they describe, the list growing and splitting as allocations came in, everything started to make sense. At that point the bit shifting arithmetic and offset storage felt natural rather than arbitrary. Seeing `print_blocks` output the heap state in real time was the moment it all came together.
 
 Overall it ended up being one of the more interesting and challenging projects I've worked on. Low level memory management sounds intimidating but once you understand the mental model it's surprisingly elegant.
-
----
-
-## 🧱 Project tasklist (constraints and features)
-
-### Constraints
-
-- Cannot call `malloc`, `calloc`, `realloc`, or `free` anywhere in your code.
-- Cannot use C++.
-- Block list must be implemented in-place inside the managed memory pool.
-- Each list node header must be exactly 4 bytes.
-- Memory must be allocated in multiples of 4 bytes.
-- Heap size assumed to be no more than 256MB (2²⁸ bytes).
-- Only allowed libraries: `stdio`, `stdlib`, `stdbool`, `string`, `ctype`, `time`, `unistd`.
-- No `.c` file may include another `.c` file.
-- All globals/functions not in a `.h` file must be declared `static`.
-- Must produce zero errors or warnings under `gcc -Wall`.
-
-### Features
-
-- `init301(void* block, int size)` - initialize the memory pool.
-- `malloc301(int size)` - first-fit allocation, rounded to multiples of 4.
-- `calloc301(int num, int size)` - allocate and zero-initialize.
-- `realloc301` - reallocate a block.
-- `free301(void* p)` - free and coalesce neighboring free blocks (up to 3-way merge).
-- `sizeof301(void* p)` - return allocated size of a block.
-- `memcpy301` - copy non-overlapping memory regions.
-- `memset301` - set bytes to a value.
-- `memzero301` - zero out bytes.
-- `print_block(void* block)` - print one block's debug info.
-- `print_blocks(void)` - print all blocks numbered with 2-digit right-aligned fields.
-- `Makefile` with targets: `all`, `test`, `dist`, `clean`, plus per-file `.o` targets with proper dependencies.
-- `test.c` testing program exercising all functions non-trivially.
-- `README` covering authorship, design, testing, resources, and reflection.
-- GitHub repo with regular, meaningful commits throughout development.
