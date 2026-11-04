@@ -30,7 +30,7 @@ memdebug.o: memdebug.c memdebug.h memimpl.h
 
 # Create submission archive
 dist:
-	tar -czf cs301project.tar.gz *.c *.h Makefile README
+	tar -czf cs301project.tar.gz *.c *.h Makefile README.md
 
 # Remove build artifacts
 clean:

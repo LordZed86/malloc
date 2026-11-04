@@ -10,11 +10,7 @@ Date: March 2026
 
 ## 🎯 Overview
 
-This project is a custom memory allocator written in C, it implements core  
-functions similar `<stdlib>`'s malloc/calloc and free. this allocator manages  
-a single block of memory using a linked list of 4-byte bit-packed node header  
-blocks. This library supports allocation, deallocation, and coalescing of free  
-adjacent blocks.  
+This project is a custom memory allocator written in C, it implements core functions similar `<stdlib.h>`’s `malloc`, `calloc`, and `free`. The allocator manages a single block of memory using a linked list of 4-byte bit-packed node header blocks. This library supports allocation, deallocation, and coalescing of free adjacent blocks.  
 
 ---
 
@@ -47,14 +43,10 @@ Every header node is exactly 4 bytes. these are packed as follows:
 - SHIFT left by 2 (multiply by 4) to return to the original size domain.
 
 **Block Split**  
-When a free block is larger than needed, it is split into two blocks - one
-allocated to the request and one is left free. The leftover must be larger than
-NODE_SIZE (4 Bytes) to be worth splitting.
+When a free block is larger than needed, it is split into two blocks - one allocated to the request and one is left free. The leftover must be larger than NODE_SIZE (4 Bytes) to be worth splitting.
 
 **Coalescing**  
-If block is freed, all free neighboring blocks are merged into a single larger
-block to prevent fragmentation. a maximum of 3 blocks can be merged at once -
-the previous block, the freed block, and the next block.
+If block is freed, all free neighboring blocks are merged into a single larger block to prevent fragmentation. A maximum of 3 blocks can be merged at once - the previous block, the freed block, and the next block.
 
 **Bit-Packing and Offset Storage**  
 Block sizes are stored as 4-byte units rather than raw bytes using bit shifts:
@@ -64,44 +56,30 @@ Block sizes are stored as 4-byte units rather than raw bytes using bit shifts:
 - Navigating: `current + NODE_SIZE + (current->size << 2)`
 
 **In-Place Linked List**  
-Nodes are stored directly inside the memory block with no separate
-allocation. The next node is found mathematically instead of using pointers, this keeps each node exactly 4 bytes.
+Nodes are stored directly inside the memory block with no separate allocation. The next node is found mathematically instead of using pointers, this keeps each node exactly 4 bytes.
 
 **Byte-Level Memory Operations**  
-`memcpy301`, `memset301`, and `memzero301` cast pointers to `char*` to
-manipulate memory one byte at a time, since `void*` mathematically moves in
-4-byte increments.
+`memcpy301`, `memset301`, and `memzero301` cast pointers to `char*` to manipulate memory one byte at a time, since `void*` mathematically moves in 4-byte increments.
 
 ---
 
-## 👥 Team Responsabilities
+## 👥 Team Responsibilities
 
 ### Milestone 1
 
-**Lore** - Led implementation of `malloc301` and `memdebug`, including
-first-fit allocation strategy, block splitting logic, and offset bit shift
-arithmetic. Contributed to overall system design and debugging.
+**Lore** - Led implementation of `malloc301` and `memdebug`, including first-fit allocation strategy, block splitting logic, and offset bit shift arithmetic. Contributed to overall system design and debugging.
 
-**Joe** — Implemented `calloc301`, `memzero301`, and `get_heap_head`.
-Contributed to initial stub of `free301`. Also served as emotional support
-for the team and was "bullied" by Kellen.
+**Joe** — Implemented `calloc301`, `memzero301`, and `get_heap_head`. Contributed to initial stub of `free301`. Also served as emotional support for the team.
 
-**Kellen** - Designed and implemented `memimpl.h` struct layout, bit-packing
-system, and offset storage strategy. Implemented `init301` and contributed
-to `malloc301`. Provided architectural guidance on how malloc works
-internally to get the team up to speed. Chief bully.
+**Kellen** - Designed and implemented `memimpl.h` struct layout, bit-packing system, and offset storage strategy. Implemented `init301` and contributed to `malloc301`. Provided architectural guidance on how malloc works internally to get the team up to speed.
 
 ### Milestone 2
 
-**Lore** - Implemented `memcpy301`, `realloc301` and `sizeof301`. Contributed to
-`test.c` including test cases and CHECK macro for pass/fail validation.
+**Lore** - Implemented `memcpy301`, `realloc301` and `sizeof301`. Contributed to `test.c` including test cases and CHECK macro for pass/fail validation.
 
-**Joe** - Implemented `memzero301` and contributed to `test.c`
-including calloc and memzero, memcpy, and free test cases.
+**Joe** - Implemented `memzero301` and contributed to `test.c` including calloc and memzero, memcpy, and free test cases.
 
-**Kellen** - Implemented `memset301` and `free301` including block
-coalescing logic. Contributed to `test.c` including free and memset
-test cases.
+**Kellen** - Implemented `memset301` and `free301` including block coalescing logic. Contributed to `test.c` including free and memset test cases.
 
 ---
 
@@ -156,8 +134,7 @@ make mac_leaks  # Mac - runs test with macOS leaks tool
 ---
 
 ## 🔬 Testing
-<!-- Spec requires: "A brief description of the testing you have performed,
-the behavior of your test program, etc." -->
+
 All tests are located in `test.c` and can be run with:
 
 ```bash
@@ -209,32 +186,15 @@ make mac_leaks   # Mac
 
 ## 🪞 Reflection
 
-**Lore** - i had a hard time wrapping my head arpound th bit manipulation, once i got through that i found the realloc amd memops stuff a bit fun.
+**Lore** - I had a hard time wrapping my head around the bit manipulation, once I got through that I found the realloc amd memops stuff a bit fun.
 
-**Joe** -  I really struggled with the inital understanding of getting malloc
-working and really just how the bit packing and manipulation all worked together
-but once that kind of stuff was figured out and laid out I started to feel
-better about the memops and testing suite because I just had a little better
-understanding of what it was I needed to be doing. Overall, this was definitely
-the toughest project of the quarter for me so I'm happy to see the light at the
-end of the tunnel.
+**Joe** -  I really struggled with the inital understanding of getting malloc working and really just how the bit packing and manipulation all worked together but once that kind of stuff was figured out and laid out I started to feel better about the memops and testing suite because I just had a little better understanding of what it was I needed to be doing. Overall, this was definitely the toughest project of the quarter for me so I'm happy to see the light at the end of the tunnel.
 
-**Kellen** - The most challenging part for me was wrapping my head around
-`malloc301` and the overall node structure. Understanding how a linked list
-could live inside the memory it was managing, with no separate allocation,
-took a while to click. The bit-packing was also initially confusing, cramming
-size, free, and last flags into exactly 4 bytes felt abstract at first.
+**Kellen** - The most challenging part for me was wrapping my head around `malloc301` and the overall node structure. Understanding how a linked list could live inside the memory it was managing, with no separate allocation, took a while to click. The bit-packing was also initially confusing, cramming size, free, and last flags into exactly 4 bytes felt abstract at first.
 
-Once I was able to visualize what was actually happening in memory - nodes
-sitting directly in front of the blocks they describe, the list growing and
-splitting as allocations came in, everything started to make sense. At that
-point the bit shifting arithmetic and offset storage felt natural rather than
-arbitrary. Seeing `print_blocks` output the heap state in real time was the
-moment it all came together.
+Once I was able to visualize what was actually happening in memory - nodes sitting directly in front of the blocks they describe, the list growing and splitting as allocations came in, everything started to make sense. At that point the bit shifting arithmetic and offset storage felt natural rather than arbitrary. Seeing `print_blocks` output the heap state in real time was the moment it all came together.
 
-Overall it ended up being one of the more interesting and challenging projects I've worked on.
-Low level memory management sounds intimidating but once you understand the
-mental model it's surprisingly elegant.
+Overall it ended up being one of the more interesting and challenging projects I've worked on. Low level memory management sounds intimidating but once you understand the mental model it's surprisingly elegant.
 
 ---
 
