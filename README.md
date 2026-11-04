@@ -10,7 +10,7 @@ Date: March 2026
 
 ## 🎯 Overview
 
-This project is a custom memory allocator written in C, it implements core functions similar `<stdlib.h>`’s `malloc`, `calloc`, and `free`. The allocator manages a single block of memory using a linked list of 4-byte bit-packed node header blocks. This library supports allocation, deallocation, and coalescing of free adjacent blocks.  
+This project is a custom memory allocator written in C. It implements core functions similar `<stdlib.h>`’s `malloc`, `calloc`, and `free`. The allocator manages a single block of memory using a linked list of 4-byte bit-packed node header blocks. This library supports allocation, deallocation, and coalescing of free adjacent blocks.  
 
 ---
 
